@@ -343,7 +343,7 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .svc .rows { margin-top: clamp(32px, 4vw, 56px); max-width: 1100px; }
 .svc a:not(.btn) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .22em; }
 .svc a:not(.btn):hover { text-decoration-thickness: 2px; }
-/* Kits: three bordered boxes side by side, each with a large name; names, one-liners and lists
+/* Kits: three boxes with a dashed border side by side, each with a large name; names, one-liners and lists
    line up across the boxes (subgrid). One box after another on smaller screens. The box
    border closes each list, so the list has no bottom rule of its own. */
 .kits {
@@ -352,7 +352,7 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 }
 .kit {
   display: grid; grid-row: span 4; grid-template-rows: subgrid; align-content: start;
-  padding: clamp(20px, 2.2vw, 36px); border: 1px solid var(--ink);
+  padding: clamp(20px, 2.2vw, 36px); border: 1px dashed var(--ink);
 }
 .kit .list { border-bottom: 0; }
 .kit h3 { font-size: clamp(32px, 3.2vw, 52px); font-weight: 600; letter-spacing: -.035em; line-height: 1.05; }
