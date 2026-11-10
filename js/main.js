@@ -653,7 +653,13 @@
   // .scrolled on <html> once the visitor has scrolled: hides the hero's scroll cue.
   const markScrolled = () => document.documentElement.classList.toggle("scrolled", scrollY > 10);
   markScrolled();
-  addEventListener("scroll", () => { schedule(); remember(); markScrolled(); }, { passive: true });
+  // Demo page (header[data-blend]): the top bar blends with the renders while it's over them,
+  // and goes back to the ink bar with its fade once the first text section reaches it.
+  const blendBar = document.querySelector(".bar[data-blend]");
+  const firstText = blendBar && document.querySelector("main > section:not(.seq)");
+  const markBar = () => { if (firstText) blendBar.classList.toggle("bar-blend", firstText.getBoundingClientRect().top > BAR_H); };
+  markBar();
+  addEventListener("scroll", () => { schedule(); remember(); markScrolled(); markBar(); }, { passive: true });
   addEventListener("resize", () => {
     const turned = innerWidth !== lastW;
     relayout();

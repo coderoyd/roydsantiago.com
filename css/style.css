@@ -64,8 +64,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   padding: 0 var(--pad);
 }
 /* Soft fade at the top instead of a solid bar with a rule. */
-.bar::before, .bar-fade {
-  content: ""; pointer-events: none;
+.bar::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;   /* 64px, same as before */
+  pointer-events: none; transition: opacity .3s ease;
   /* Eased (cosine) falloff: no visible edge where it ends. */
   background: linear-gradient(to bottom,
     rgb(var(--grey-rgb) / .9) 0%,
@@ -80,14 +81,15 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
     rgb(var(--grey-rgb) / .022) 90%,
     rgb(var(--grey-rgb) / 0) 100%);
 }
-.bar::before { position: absolute; inset: 0; z-index: -1; }   /* 64px, same as before */
-/* Demo page: the bar's text adapts to what's behind it, like the hero title (white +
-   "difference": dark grey over the backdrop, light over the dark parts). Blending the whole
-   bar would darken its fade too, so there the fade is its own element (.bar-fade) under it. */
-.bar-fade { position: fixed; inset: 0 0 auto 0; z-index: 49; height: var(--bar-h); }
+/* Demo page, while the bar is over the renders (main.js adds .bar-blend): the text adapts to
+   what's behind it like the hero title (white + "difference": dark grey over the backdrop,
+   light over the dark parts). The fade is hidden then: over a dark render it made a mid-grey
+   band where blended text disappears. Over the text sections below, the ink bar returns. */
 .bar-blend { color: var(--white); mix-blend-mode: difference; }
-.bar-blend::before { content: none; }
+.bar-blend::before { opacity: 0; }
 .bar-blend .brand, .bar-blend .nav a { color: inherit; }
+.bar-blend .nav a { opacity: .6; }
+.bar-blend .nav a[aria-current="page"], .bar-blend .nav a:hover, .bar-blend .nav a:focus-visible { opacity: 1; }
 .bar-blend a:focus-visible { outline-color: currentColor; }
 /* Brand mark: the six-arm asterisk (same file as the favicon). */
 .logo {

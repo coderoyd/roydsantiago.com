@@ -9,14 +9,13 @@
   <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="frames/d/hero/0000.webp" as="image">
   <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
-  <link rel="stylesheet" href="css/style.css?v=68">
+  <link rel="stylesheet" href="css/style.css?v=69">
 </head>
 <body>
 
-  <!-- The top-bar text blends with what's behind it (like the hero title); its fade sits
-       underneath as a separate layer so the fade isn't blended too. -->
-  <div class="bar-fade" aria-hidden="true"></div>
-  <header class="bar bar-blend">
+  <!-- data-blend: over the renders the top-bar text blends with what's behind it, like the hero
+       title (main.js toggles .bar-blend); over the text sections it's the normal ink bar. -->
+  <header class="bar" data-blend>
     <a class="brand" href="#top" aria-label="Studio Royd, back to top">
       <span class="logo" aria-hidden="true"></span>
       <span class="brand-name">Studio Royd</span>
@@ -149,7 +148,7 @@
 
   </main>
 
-  <script src="js/labels.js?v=68"></script>
-  <script src="js/main.js?v=68"></script>
+  <script src="js/labels.js?v=69"></script>
+  <script src="js/main.js?v=69"></script>
 </body>
 </html>
