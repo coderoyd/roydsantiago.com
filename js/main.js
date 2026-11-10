@@ -619,9 +619,44 @@
     if (s.sets[0].dir === "explode") s.labels = buildLabels(s);
     if (s.mode === "drag") { initDrag(s); initVariants(s); }
   });
+  // Turning the phone changes every section's height (they're sized in vh), so the scroll position
+  // the browser keeps lands somewhere else, often halfway between two sections. Remember which
+  // section the visitor is in and how far through it, and go back there after the turn.
+  // f: 0–1 through a section's scroll range (the pinned part), then 1 + screens scrolled past it.
+  let spot = null;
+  let lastW = innerWidth;
+  const range = (r) => (r.height > innerHeight ? r.height - innerHeight : r.height);
+  function remember() {
+    if (innerWidth !== lastW) return;                // mid-turn: the old spot is still the right one
+    for (const el of document.querySelectorAll("main > section")) {
+      const r = el.getBoundingClientRect();
+      if (r.bottom > 0.5) {
+        const d = Math.max(0, -r.top), n = range(r);
+        spot = { el, f: d <= n ? d / n : 1 + (d - n) / innerHeight };
+        return;
+      }
+    }
+  }
+  function restore() {
+    if (!spot) return;
+    const r = spot.el.getBoundingClientRect(), n = range(r), f = spot.f;
+    const html = document.documentElement;
+    html.style.scrollBehavior = "auto";              // jump, don't animate (the page scrolls smoothly)
+    scrollTo(0, Math.round(scrollY + r.top + (f <= 1 ? f * n : n + (f - 1) * innerHeight)));
+    html.style.scrollBehavior = "";
+  }
+
   relayout();
-  addEventListener("scroll", schedule, { passive: true });
-  addEventListener("resize", relayout);
+  remember();
+  addEventListener("scroll", () => { schedule(); remember(); }, { passive: true });
+  addEventListener("resize", () => {
+    const turned = innerWidth !== lastW;
+    relayout();
+    if (!turned) return;
+    restore();
+    // Safari can settle the new size a moment later (its bars move), so place it once more.
+    setTimeout(() => { relayout(); restore(); lastW = innerWidth; }, 400);
+  });
 
   /* ---------- Footer logo animation ---------- */
   // Plays once when the footer comes into view and stops on the wordmark (its last frame).

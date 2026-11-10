@@ -284,7 +284,10 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 /* Phones turned sideways: headings sit closer to the top bar and the part labels hang on
    shorter lines, so the renders under them can be larger (main.js fits them under the text).
    The quote keeps the product beside the ask, as on desktop. */
+/* The stage follows the visible height (dvh): in landscape Safari's address and tab bars sit at
+   the top and hide once you scroll, which otherwise left a band of empty grey under the renders. */
 @media (orientation: landscape) and (max-height: 519px) {
+  .stage { height: 100dvh; }
   .hero-top, .block-top { top: calc(var(--bar-h) + 4px); }
   .label-line { height: 16px; }
   .quote { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
