@@ -329,3 +329,51 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .doc a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 /* Touch screens: 44px tap areas on the links without changing the line spacing. */
 @media (pointer: coarse) { .doc a { display: inline-block; padding: 9px 0; margin: -9px 0; } }
+
+/* ---------- Services page ---------- */
+/* Same left edge as the top bar and the Info page. Each section: a large heading with a short
+   rule (.doc-h), then hairline rows (.rows, as on the Demo page). */
+.svc { padding: 0 var(--pad); }
+.svc-top { padding-top: calc(var(--bar-h) + clamp(40px, 9vh, 120px)); }
+.svc + .svc { margin-top: clamp(96px, 12vw, 180px); }
+.svc + .contact { margin-top: clamp(40px, 6vw, 96px); }
+.svc .rows { margin-top: clamp(32px, 4vw, 56px); max-width: 1100px; }
+.svc a:not(.btn) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .22em; }
+.svc a:not(.btn):hover { text-decoration-thickness: 2px; }
+/* Kits: three columns with the names and one-liners lined up across them (subgrid);
+   one after another on smaller screens. */
+.kits {
+  margin-top: clamp(40px, 5vw, 72px);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(24px, 3vw, 48px);
+}
+.kit { display: grid; grid-row: span 4; grid-template-rows: subgrid; align-content: start; }
+.kit h3, .kit-extras h3 { font-size: clamp(24px, 2vw, 32px); letter-spacing: -.02em; }
+.kit-for { margin: 6px 0 20px; color: var(--ink-70); }
+.list { align-self: start; border-bottom: 1px solid var(--rule); }
+.list li { padding: 12px 0; border-top: 1px solid var(--rule); }
+.kit-more { margin-top: 14px; color: var(--ink-70); font-size: 15px; }
+/* Every kit includes (two columns of rows, under the first two kits) and Add to any kit. */
+.kit-extras {
+  margin-top: clamp(56px, 6vw, 96px);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px clamp(24px, 3vw, 48px);
+}
+.kit-extras > div:first-child { grid-column: span 2; }
+/* Fills down the first column, then the second, so the list reads in the order of the work. */
+.kit-extras > div:first-child .list {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, auto);
+  grid-auto-flow: column; column-gap: clamp(24px, 3vw, 48px);
+}
+.kit-extras .list { margin-top: 20px; }
+/* Onboarding steps: number, step, what happens. */
+.rows.steps li { grid-template-columns: 72px minmax(0, 2fr) minmax(0, 3fr); }
+@media (max-width: 900px) {
+  .kits, .kit-extras { grid-template-columns: 1fr; }
+  .kit { display: block; }
+  .kit + .kit { margin-top: 56px; }
+  .kit-extras > div:first-child { grid-column: auto; }
+  .kit-extras > div:first-child .list { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .rows.steps li { grid-template-columns: 48px minmax(0, 1fr); }
+  .rows.steps li p { grid-column: 2; }
+}
