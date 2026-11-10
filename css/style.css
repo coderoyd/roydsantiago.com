@@ -200,10 +200,14 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   position: absolute; top: var(--dots-y); left: var(--dots-x);
   margin: 0; transform: translateX(-50%);
 }
-/* Assembly text: top centre (.block-top), hidden until the animation has finished
-   (data-show="end"; main.js adds .is-shown), then fades in. */
+/* Assembly text: centred under the finished headphones (main.js sets --text-y) and shown the
+   whole time. White + "difference" blending, like the hero title, keeps it readable while
+   the parts move behind it. */
+.block-end { color: var(--white); mix-blend-mode: difference; }
+.block-end p { color: rgba(255, 255, 255, .8); }
 .block-end h2 { font-size: clamp(26px, 2.3vw, 40px); }
-.text-under .block-end { top: var(--text-y); }   /* phones: under the finished headphones */
+.text-under .block-end { top: var(--text-y); }
+/* data-show="end": hidden until the sequence has finished (main.js adds .is-shown), then fades in. */
 [data-show="end"] {
   opacity: 0; visibility: hidden; transform: translateY(14px);
   transition: opacity .6s ease, transform .6s ease, visibility 0s linear .6s;

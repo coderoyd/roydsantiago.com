@@ -9,7 +9,7 @@
   <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="frames/d/hero/0000.webp" as="image">
   <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
-  <link rel="stylesheet" href="css/style.css?v=52">
+  <link rel="stylesheet" href="css/style.css?v=54">
 </head>
 <body>
 
@@ -21,7 +21,7 @@
     <!-- Site pages. This page is Webkit; the others aren't built yet. -->
     <nav class="nav" aria-label="Pages">
       <a href="work.html">Work</a>
-      <a href="index.html" aria-current="page">Webkit</a>
+      <a href="index.html" aria-current="page">Demo</a>
       <a href="services.html">Services</a>
       <a href="info.html">Info</a>
     </nav>
@@ -77,13 +77,13 @@
 
     <!-- 4. Assembly: Layout 4 -->
     <!-- data-fit: the finished product's top and bottom in the last frame (rows 194–844 of 1080),
-         so main.js can fit it below the heading. -->
+         so main.js can place the heading under it. -->
     <section class="seq" id="assemble" data-seq="assemble" data-count="165" data-mode="auto" data-trigger="enter" data-fit="194,844" style="--h: 260vh">
       <div class="stage">
         <canvas role="img" aria-label="Headphone parts move together and assemble into the finished headphones."></canvas>
 
-        <!-- Text at top centre, like the exploded view's. It fades in once the animation has finished. -->
-        <div class="block block-top block-end" data-show="end">
+        <!-- Text under the finished headphones, shown the whole time like the hero title. -->
+        <div class="block block-top block-end">
           <h2>Assemble, take apart, rotate or zoom in.</h2>
           <p>The details that sell it, shown in motion.</p>
         </div>
@@ -138,7 +138,7 @@
 
   </main>
 
-  <script src="js/labels.js?v=52"></script>
-  <script src="js/main.js?v=52"></script>
+  <script src="js/labels.js?v=54"></script>
+  <script src="js/main.js?v=54"></script>
 </body>
 </html>

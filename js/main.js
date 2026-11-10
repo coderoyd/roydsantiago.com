@@ -178,23 +178,30 @@
     // instead of a letterboxed frame with soft top and bottom edges.
     if (w < h && (s.el.querySelector(".hero-top") || ds.fit)) scale = cover;
     let dx = (w - IW * scale) / 2, dy = (h - IH * scale) / 2;
-    // Assembly: the heading sits top centre, so the finished product (data-fit: its top and
-    // bottom in the last frame, in frame pixels) is fitted below it. The frame moves down,
-    // and shrinks only when the screen is too short to fit it otherwise.
-    // Phones: the frame fills the screen, so the heading goes 56px under the finished product
-    // (closer on short screens, so it always ends at least 24px above the bottom).
+    // Assembly: the heading and subtitle sit 56px under the finished product (data-fit: its top
+    // and bottom in the last frame, in frame pixels).
+    // Phones: the frame fills the screen and the text goes under the product (closer on short
+    // screens, so it always ends at least 24px above the bottom).
+    // Landscape: the product and the text are fitted together between the top bar and the
+    // bottom of the screen, centred there. The frame shrinks only when they don't fit.
     const head = s.el.querySelector(".block-end");
-    const textUnder = !!(ds.fit && head && w < h);
+    const textUnder = !!(ds.fit && head);
     s.el.classList.toggle("text-under", textUnder);
     if (textUnder) {
-      const below = dy + Number(ds.fit.split(",")[1]) * scale + 56;
-      s.el.style.setProperty("--text-y", `${Math.round(Math.min(below, h - head.offsetHeight - 24))}px`);
-    } else if (ds.fit && head) {
       const [ft, fb] = ds.fit.split(",").map(Number);
-      const lo = head.offsetTop + head.offsetHeight + 24, hi = h - 24;
-      scale = Math.min(scale, (hi - lo) / (fb - ft));
-      dx = (w - IW * scale) / 2; dy = (h - IH * scale) / 2;
-      dy += Math.max(0, lo - (dy + ft * scale));
+      let textY;
+      if (w < h) {
+        textY = Math.min(dy + fb * scale + 56, h - head.offsetHeight - 24);
+      } else {
+        const lo = BAR_H + h * 0.03, hi = h - Math.max(24, h * 0.05);
+        const room = hi - lo - 56 - head.offsetHeight;
+        scale = Math.min(scale, room / (fb - ft));
+        const top = lo + (room - (fb - ft) * scale) / 2;
+        dx = (w - IW * scale) / 2;
+        dy = top - ft * scale;
+        textY = top + (fb - ft) * scale + 56;
+      }
+      s.el.style.setProperty("--text-y", `${Math.round(textY)}px`);
     }
     // Turntable: when its text fits to the left, the product moves right (data-shift, share of
     // the width, never past the right margin) and the text sits centre left (.side in CSS).
