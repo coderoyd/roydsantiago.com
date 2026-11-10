@@ -31,7 +31,8 @@
   const TURN_HOLD = 300;             // reverse loop: short pause on the last frame before playing back
   const FADE_MS = 600;               // looping: crossfade from last frame back to first
   const MAX_LOADS = 6;               // parallel image requests
-  const IDLE_FPS = 18;               // drag mode: idle spin speed in frames per second (a turn in ~6.7 s)
+  const IDLE_FPS = 30;               // drag mode: idle spin speed, a turn in 4 s. 30 lands evenly on 60/120 Hz
+                                     // screens (each frame shows for 2 or 4 refreshes); 18 stuttered
   const DRAG_TURN = 1.2;             // drag mode: stage widths of drag for one full turn
   const SETTLE = 2.2;                // drag mode: how quickly momentum eases back to the idle spin
   const SWAP_MS = 350;               // colourway crossfade
