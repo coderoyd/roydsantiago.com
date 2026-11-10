@@ -178,6 +178,23 @@
     // instead of a letterboxed frame with soft top and bottom edges.
     if (w < h && (s.el.querySelector(".hero-top") || ds.fit)) scale = cover;
     let dx = (w - IW * scale) / 2, dy = (h - IH * scale) / 2;
+    // Phones turned sideways (short landscape screens): the parts fit between the heading and the
+    // bottom of the screen instead of running under the text. data-parts: the parts' top and
+    // bottom rows in the first frame. The exploded view also keeps room for its labels, which
+    // hang under the lowest label point (shorter lines on these screens, see style.css).
+    const short = w > h && h < 520;
+    const lowest = s.labels ? Math.max(...s.labels.map((L) => Math.max(...L.pts.map((p) => p[1])))) : 0;
+    const heading = s.el.querySelector(".hero-top, .block-top:not(.block-end)");
+    if (short && ds.parts && heading) {
+      const [pt, pb] = ds.parts.split(",").map(Number);
+      const hang = lowest ? s.labels[0].el.offsetHeight + 12 : 0;
+      const a = heading.offsetTop + heading.offsetHeight + 16, b = h - 8;
+      scale = Math.min(scale, (b - a) / (pb - pt));
+      if (lowest) scale = Math.min(scale, (b - hang - a) / (lowest - pt));
+      const bottom = Math.max(pb * scale, lowest * scale + hang);
+      dx = (w - IW * scale) / 2;
+      dy = a + (b - a - (bottom - pt * scale)) / 2 - pt * scale;
+    }
     // Assembly: the heading and subtitle sit 56px under the finished product (data-fit: its top
     // and bottom in the last frame, in frame pixels).
     // Phones: the frame fills the screen and the text goes under the product (closer on short
@@ -193,27 +210,36 @@
       if (w < h) {
         textY = Math.min(dy + fb * scale + 56, h - head.offsetHeight - 24);
       } else {
+        const gap = short ? 24 : 56;                // phones turned sideways: closer, so the product is larger
         const lo = BAR_H + h * 0.03, hi = h - Math.max(24, h * 0.05);
-        const room = hi - lo - 56 - head.offsetHeight;
+        const room = hi - lo - gap - head.offsetHeight;
         scale = Math.min(scale, room / (fb - ft));
         const top = lo + (room - (fb - ft) * scale) / 2;
         dx = (w - IW * scale) / 2;
         dy = top - ft * scale;
-        textY = top + (fb - ft) * scale + 56;
+        textY = top + (fb - ft) * scale + gap;
       }
       s.el.style.setProperty("--text-y", `${Math.round(textY)}px`);
     }
     // Turntable: when its text fits to the left, the product moves right (data-shift, share of
     // the width, never past the right margin) and the text sits centre left (.side in CSS).
-    // data-box = the product's extent over the whole spin: left, top, right in frame pixels.
+    // data-box = the product's extent over the whole spin: left, top, right, bottom in frame pixels.
     const text = s.el.querySelector(".block-tl");
+    // Short landscape screens: always beside the text, sized to fit between the top bar and the
+    // bottom of the screen and centred in the space to the right of the text.
     if (ds.box && text) {
-      const [bl, bt, br] = ds.box.split(",").map(Number);
+      const [bl, bt, br, bb] = ds.box.split(",").map(Number);
       const pad = text.offsetLeft;
       const shift = Math.max(0, Math.min(parseFloat(ds.shift) * w, w - pad - (dx + br * scale)));
-      if (dx + bl * scale + shift >= pad + text.offsetWidth + 48) {
+      const minTop = BAR_H + h * 0.03;              // keep the headband clear of the top bar
+      if (short) {
+        const left = pad + text.offsetWidth + 48, right = w - pad, bottom = h - Math.max(24, h * 0.05);
+        scale = Math.min(scale, (right - left) / (br - bl), (bottom - minTop) / (bb - bt));
+        dx = (left + right - (bl + br) * scale) / 2;
+        dy = (minTop + bottom - (bt + bb) * scale) / 2;
+        s.el.classList.add("side");
+      } else if (dx + bl * scale + shift >= pad + text.offsetWidth + 48) {
         dx += shift;
-        const minTop = BAR_H + h * 0.03;            // keep the headband clear of the top bar
         const top = dy + bt * scale;
         if (top < minTop) dy += minTop - top;
         s.el.classList.add("side");
@@ -241,8 +267,7 @@
     // 8px gap, name). The frame is still placed for the full height, so nothing moves.
     let ch = h;
     if (s.labels) {
-      const lowest = Math.max(...s.labels.map((L) => Math.max(...L.pts.map((p) => p[1]))));
-      ch = Math.min(h, Math.round(dy + lowest * scale + 72 + 40));
+      ch =Math.min(h, Math.round(dy + lowest * scale + 72 + 40));
       s.stage.style.height = `${ch}px`;
     } else if (w < h && ds.box) {
       // Turntable on tall screens: the stage ends 40px under the colour dots, so the next

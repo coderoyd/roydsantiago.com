@@ -280,6 +280,15 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   .swatch::after { inset: -12px; }
   .nav a { padding: 14px 0; }
 }
+/* Phones turned sideways: headings sit closer to the top bar and the part labels hang on
+   shorter lines, so the renders under them can be larger (main.js fits them under the text).
+   The quote keeps the product beside the ask, as on desktop. */
+@media (orientation: landscape) and (max-height: 519px) {
+  .hero-top, .block-top { top: calc(var(--bar-h) + 4px); }
+  .label-line { height: 16px; }
+  .quote { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+  .quote-art { margin: 0; }
+}
 @media (max-width: 560px) {
   .brand-name { display: none; }
   .brand, .nav a { font-size: 16px; }

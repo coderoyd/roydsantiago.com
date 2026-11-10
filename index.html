@@ -9,7 +9,7 @@
   <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="frames/d/hero/0000.webp" as="image">
   <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
-  <link rel="stylesheet" href="css/style.css?v=54">
+  <link rel="stylesheet" href="css/style.css?v=55">
 </head>
 <body>
 
@@ -30,7 +30,9 @@
   <main id="top">
 
     <!-- 1. Hero: Layout 3 -->
-    <section class="seq" id="hero" data-seq="hero" data-count="150" data-mode="auto" data-trigger="load" data-loop="reverse" style="--h: 240vh">
+    <!-- data-parts: the parts' top and bottom rows in the first frame (of 1080), so main.js can fit
+         them under the title on phones turned sideways. Same on the exploded view. -->
+    <section class="seq" id="hero" data-seq="hero" data-count="150" data-mode="auto" data-trigger="load" data-loop="reverse" data-parts="317,763" style="--h: 240vh">
       <div class="stage">
         <canvas role="img" aria-label="Rendered headphone parts in a row. As you scroll, the camera moves into the driver and the membrane pops out."></canvas>
 
@@ -43,7 +45,7 @@
     </section>
 
     <!-- 2. Exploded views: Layout 2 -->
-    <section class="seq" id="explode" data-seq="explode" data-count="90" data-mode="scrub" style="--h: 340vh">
+    <section class="seq" id="explode" data-seq="explode" data-count="90" data-mode="scrub" data-parts="310,763" style="--h: 340vh">
       <div class="stage">
         <canvas role="img" aria-label="Side view of every headphone part, spaced apart in a row, with labels."></canvas>
         <div class="labels" aria-hidden="true"></div>
@@ -138,7 +140,7 @@
 
   </main>
 
-  <script src="js/labels.js?v=54"></script>
-  <script src="js/main.js?v=54"></script>
+  <script src="js/labels.js?v=55"></script>
+  <script src="js/main.js?v=55"></script>
 </body>
 </html>
