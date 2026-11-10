@@ -28,7 +28,9 @@
   --ink-50: rgba(3, 0, 22, .5);
   --rule: rgba(3, 0, 22, .14);
   --bar-h: 64px;
-  --pad: clamp(20px, 4vw, 64px);
+  /* Side padding. The pages use viewport-fit=cover so renders reach the screen edges on phones
+     turned sideways; text stays clear of the camera notch and rounded corners (safe area). */
+  --pad: max(clamp(20px, 4vw, 64px), env(safe-area-inset-left), env(safe-area-inset-right));
   --sans: "DM Sans", ui-sans-serif, sans-serif;
   --mono: "DM Mono", ui-monospace, monospace;
 }

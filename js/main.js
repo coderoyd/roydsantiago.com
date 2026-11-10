@@ -187,7 +187,15 @@
     const short = w > h && h < 520;
     const lowest = s.labels ? Math.max(...s.labels.map((L) => Math.max(...L.pts.map((p) => p[1])))) : 0;
     const heading = s.el.querySelector(".hero-top, .block-top:not(.block-end)");
-    if (short && ds.parts && heading) {
+    if (short && ds.parts && heading && heading.classList.contains("hero-top")) {
+      // Hero: fill the width, so the zoom into the driver never shows the frame's soft edges, and
+      // hang the parts just under the title. It depends only on the width, so nothing jumps when
+      // Safari's bars hide and the screen gets taller; the bottom of the parts may be cut a little.
+      const pt = +ds.parts.split(",")[0];
+      scale = w / IW;
+      dx = 0;
+      dy = Math.min(0, heading.offsetTop + heading.offsetHeight + 8 - pt * scale);
+    } else if (short && ds.parts && heading) {
       const [pt, pb] = ds.parts.split(",").map(Number);
       const hang = lowest ? s.labels[0].el.offsetHeight + 12 : 0;
       const a = heading.offsetTop + heading.offsetHeight + 16, b = h - 8;
