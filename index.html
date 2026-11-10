@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Webkit — Studio Royd</title>
+  <meta name="description" content="Studio Royd renders your product as an image sequence that plays as visitors scroll.">
+  <link rel="icon" href="img/royd-icon.svg?v=3" type="image/svg+xml">
+  <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="frames/d/hero/0000.webp" as="image">
+  <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
+  <link rel="stylesheet" href="css/style.css?v=42">
+</head>
+<body>
+
+  <header class="bar">
+    <a class="brand" href="#top" aria-label="Studio Royd, back to top">
+      <span class="logo" aria-hidden="true"></span>
+      <span class="brand-name">Studio Royd</span>
+    </a>
+    <!-- Site pages. This page is Webkit; the others aren't built yet. -->
+    <nav class="nav" aria-label="Pages">
+      <a href="work.html">Work</a>
+      <a href="index.html" aria-current="page">Webkit</a>
+      <a href="services.html">Services</a>
+      <a href="info.html">Info</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- 1. Hero: Layout 3 -->
+    <section class="seq" id="hero" data-seq="hero" data-count="150" data-mode="auto" data-trigger="load" data-loop="reverse" style="--h: 240vh">
+      <div class="stage">
+        <canvas role="img" aria-label="Rendered headphone parts in a row. As you scroll, the camera moves into the driver and the membrane pops out."></canvas>
+
+        <div class="hero-top">
+          <h1>Introducing Webkit</h1>
+          <p class="sub">Product animations for your website.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. Exploded views: Layout 2 -->
+    <section class="seq" id="explode" data-seq="explode" data-count="90" data-mode="scrub" style="--h: 340vh">
+      <div class="stage">
+        <canvas role="img" aria-label="Side view of every headphone part, spaced apart in a row, with labels."></canvas>
+        <div class="labels" aria-hidden="true"></div>
+
+        <div class="block block-top" data-show="-1,2">
+          <h2>Plays on its own, or with the scroll.</h2>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. Turntable: Layout 5 (drag to turn, slow spin on its own) + colourways.
+         Each colourway is its own 120-frame set; a button hides itself until its frames exist. -->
+    <!-- data-shift: product moved right by 15% of the width when the text fits beside it.
+         data-box: the product's extent over the whole spin (left, top, right of the 1440x1080 frame). -->
+    <section class="seq" id="turn" data-seq="turn" data-variants="turn,turn-white,turn-navy" data-count="120" data-mode="drag" data-shift="0.15" data-box="416,180,1034" style="--h: 110vh">
+      <div class="stage drag-stage" tabindex="0" aria-label="The finished headphones. Drag left or right, or use the arrow keys, to turn them.">
+        <canvas role="img" aria-label="The finished headphones turning on the spot."></canvas>
+        <!-- Text and colour dots: centre left beside the headphones; above them on phones. -->
+        <div class="block block-tl" data-show="-1,2">
+          <h2>Interactive Turntable.</h2>
+          <p>Drag to rotate. Or pick a different color.</p>
+          <div class="swatches" role="radiogroup" aria-label="Colour">
+            <button type="button" class="swatch" role="radio" aria-checked="true" data-variant="0" style="--c: #141414" aria-label="Black" title="Black"></button>
+            <button type="button" class="swatch" role="radio" aria-checked="false" data-variant="1" style="--c: #ECECE8" aria-label="White" title="White"></button>
+            <button type="button" class="swatch" role="radio" aria-checked="false" data-variant="2" style="--c: #1F2B47" aria-label="Navy" title="Navy"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Assembly: Layout 4 -->
+    <!-- data-fit: the finished product's top and bottom in the last frame (rows 194–844 of 1080),
+         so main.js can fit it below the heading. -->
+    <section class="seq" id="assemble" data-seq="assemble" data-count="165" data-mode="auto" data-trigger="enter" data-fit="194,844" style="--h: 260vh">
+      <div class="stage">
+        <canvas role="img" aria-label="Headphone parts move together and assemble into the finished headphones."></canvas>
+
+        <!-- Text at top centre, like the exploded view's. It fades in once the animation has finished. -->
+        <div class="block block-top block-end" data-show="end">
+          <h2>Assemble, take apart, rotate or zoom in.</h2>
+          <p>The details that sell it, shown in motion.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. What you get -->
+    <!-- Both blocks share one pattern: title in a left column, items as hairline rows on the right. -->
+    <section class="info" id="get">
+      <div class="wrap split">
+        <h2>What you get</h2>
+        <ul class="rows">
+          <li><h3>The animation</h3><p>Rendered frames of your product, compressed for the web, in desktop and phone sizes.</p></li>
+          <li><h3>The player</h3><p>Code that plays the frames on load, on scroll or by drag, like the sections above. Or we build the whole page.</p></li>
+          <li><h3>Fast pages</h3><p>Frames load just ahead of the scroll, so the page opens quickly. This page works the same way.</p></li>
+          <li><h3>Stills</h3><p>Renders from the same scenes, for your store and social posts.</p></li>
+        </ul>
+      </div>
+
+      <!-- How it works -->
+      <div class="wrap split" id="how">
+        <h2>How it works</h2>
+        <ol class="rows">
+          <li><span class="step-n">1</span><p>You send CAD files or photos of your product.</p></li>
+          <li><span class="step-n">2</span><p>We model, light and animate it.</p></li>
+          <li><span class="step-n">3</span><p>You review the frames in your browser.</p></li>
+          <li><span class="step-n">4</span><p>We deliver the files and the code.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 6. Contact: the page ends on the product again, full size and in navy, beside the ask. -->
+    <section class="contact" id="contact">
+      <div class="wrap quote">
+        <div class="quote-copy">
+          <h2 class="big">Get a quote.</h2>
+          <p class="lead">Tell us about your product and where the renders will be used.</p>
+          <!-- Opens an email to the studio with the subject and a short template filled in. -->
+          <a class="btn btn-ink btn-lg" href="mailto:studio@roydsantiago.com?subject=Webkit%20quote&amp;body=Product%3A%0D%0AWhere%20the%20renders%20will%20be%20used%3A%0D%0ADeadline%3A%0D%0A">Email Studio Royd</a>
+        </div>
+        <!-- Navy turntable frame 30, cropped 720x840 from Renders/Layout 5 Navy. -->
+        <img class="quote-art" src="media/quote-navy.webp" width="720" height="840" loading="lazy" decoding="async" alt="The finished headphones in navy.">
+      </div>
+      <footer class="foot">
+        <!-- Brand animation: the asterisk turns into the r·yd wordmark once, when the footer comes into view. -->
+        <video class="logo-anim" src="media/logo-anim.mp4" poster="media/logo-anim-poster.webp"
+               muted playsinline preload="auto" role="img" aria-label="Studio Royd"></video>
+        <span class="mono small">© 2026 Studio Royd</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <script src="js/labels.js?v=42"></script>
+  <script src="js/main.js?v=42"></script>
+</body>
+</html>

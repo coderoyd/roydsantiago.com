@@ -1,0 +1,275 @@
+/* Studio Royd — scroll-driven renders mockup */
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("../fonts/DMSans-Variable.ttf") format("truetype");
+  font-weight: 100 1000;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Mono";
+  src: url("../fonts/DMMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Mono";
+  src: url("../fonts/DMMono-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+:root {
+  --grey: #C4C4C4;          /* render backdrop, sampled from the frames */
+  --ink: #030016;           /* brand ink */
+  --white: #FFFFFF;
+  --ink-70: rgba(3, 0, 22, .72);
+  --ink-50: rgba(3, 0, 22, .5);
+  --rule: rgba(3, 0, 22, .14);
+  --bar-h: 64px;
+  --pad: clamp(20px, 4vw, 64px);
+  --sans: "DM Sans", ui-sans-serif, sans-serif;
+  --mono: "DM Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--grey);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-optical-sizing: auto;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, p { margin: 0; }
+a { color: inherit; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+.mono { font-family: var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.small { font-size: 12px; line-height: 1.4; }
+
+/* ---------- Top bar ---------- */
+.bar {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  height: var(--bar-h);
+  display: flex; align-items: center; gap: 28px;
+  padding: 0 var(--pad);
+}
+/* Soft fade at the top instead of a solid bar with a rule. */
+.bar::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;   /* 64px, same as before */
+  pointer-events: none;
+  /* Eased (cosine) falloff: no visible edge where it ends. */
+  background: linear-gradient(to bottom,
+    rgba(196, 196, 196, .9) 0%,
+    rgba(196, 196, 196, .878) 10%,
+    rgba(196, 196, 196, .814) 20%,
+    rgba(196, 196, 196, .714) 30%,
+    rgba(196, 196, 196, .589) 40%,
+    rgba(196, 196, 196, .45) 50%,
+    rgba(196, 196, 196, .311) 60%,
+    rgba(196, 196, 196, .186) 70%,
+    rgba(196, 196, 196, .086) 80%,
+    rgba(196, 196, 196, .022) 90%,
+    rgba(196, 196, 196, 0) 100%);
+}
+/* Brand mark: the six-arm asterisk (same file as the favicon). */
+.logo {
+  display: block;
+  width: 26px; aspect-ratio: 1;
+  background: currentColor;
+  -webkit-mask: url("../img/royd-icon.svg?v=3") center / contain no-repeat;
+  mask: url("../img/royd-icon.svg?v=3") center / contain no-repeat;
+}
+/* Top bar type, modelled on mvsm.com: one size, regular weight, no bar. */
+.brand, .nav a { font-size: 20px; font-weight: 400; letter-spacing: -.01em; line-height: 1; }
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  margin-right: auto;
+  color: var(--ink); text-decoration: none; white-space: nowrap;
+}
+.brand .logo { width: 22px; }
+/* Page links: the current page is solid, the rest are faded until hovered. */
+.nav { display: flex; gap: 28px; }
+.nav a {
+  text-decoration: none;
+  color: var(--ink); opacity: .32;
+  transition: opacity .25s ease;
+}
+.nav a[aria-current="page"],
+.nav a:hover,
+.nav a:focus-visible { opacity: 1; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 36px; padding: 0 18px; border-radius: 999px;
+  font: 500 14px/1 var(--sans); text-decoration: none; white-space: nowrap;
+  transition: transform .2s, background-color .2s, color .2s;
+}
+.btn-ink { background: var(--ink); color: var(--white); }
+.btn-ink:hover { transform: translateY(-1px); }
+.btn-lg { height: 52px; padding: 0 28px; font-size: 16px; }
+.btn:focus-visible, .nav a:focus-visible, .brand:focus-visible {
+  outline: 2px solid var(--ink); outline-offset: 3px;
+}
+
+/* ---------- Scroll sequences ---------- */
+.seq { position: relative; height: var(--h); }
+.stage {
+  position: sticky; top: 0;
+  height: 100vh; height: 100svh;
+  overflow: hidden;
+}
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+[data-show] { will-change: opacity, transform; }
+
+h1 {
+  font-size: clamp(34px, 4.6vw, 84px);
+  font-weight: 600; letter-spacing: -.035em; line-height: 1.02;
+  text-wrap: balance;
+}
+h2 {
+  font-size: clamp(30px, 3.4vw, 56px);
+  font-weight: 600; letter-spacing: -.03em; line-height: 1.05;
+  text-wrap: balance;
+}
+h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.25; }
+
+.hero-top {
+  position: absolute; left: var(--pad); right: var(--pad);
+  top: calc(var(--bar-h) + 4.5vh);
+  text-align: center;
+}
+/* The title stays up for the whole loop. White + "difference" blending reads as
+   dark grey over the backdrop and light over the dark parts passing behind it. */
+.hero-top { color: var(--white); mix-blend-mode: difference; }
+.hero-top .sub {
+  margin-top: 10px;
+  font-size: clamp(18px, 1.7vw, 28px); font-weight: 450; letter-spacing: -.01em;
+  color: rgba(255, 255, 255, .8);
+}
+
+.block {
+  position: absolute; left: var(--pad);
+  max-width: 520px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.block p { color: var(--ink-70); font-size: clamp(17px, 1.3vw, 20px); max-width: 40ch; }
+/* Top centre, like the hero title; the part labels hang below the parts. */
+.block-top {
+  top: calc(var(--bar-h) + 4.5vh); right: var(--pad);
+  max-width: none; align-items: center; text-align: center;
+}
+
+/* Turntable: drag sideways to turn; vertical swipes still scroll the page. */
+.drag-stage { cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; outline: none; }
+.drag-stage.is-dragging { cursor: grabbing; }
+.drag-stage:focus-visible { box-shadow: inset 0 0 0 2px var(--ink); }
+
+/* Colourway swatches under the turntable subtitle. Each dot has an invisible
+   30px hit area so it stays easy to tap. */
+.swatches { display: flex; gap: 12px; margin-top: 38px; }
+.swatch {
+  position: relative;
+  width: 20px; height: 20px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--c); cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(3, 0, 22, .2);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.swatch::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; }
+.swatch:hover { transform: scale(1.1); }
+.swatch[aria-checked="true"] { box-shadow: inset 0 0 0 1px rgba(3, 0, 22, .2), 0 0 0 2px var(--grey), 0 0 0 3.5px var(--ink); }
+.swatch:focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
+
+/* Turntable layout: text and colour dots centre left when the headphones sit to the right
+   (main.js adds .side); top left, above the headphones, when there's no room beside them. */
+.block-tl { top: calc(var(--bar-h) + 4.5vh); }
+.side .block-tl { top: 0; bottom: 0; justify-content: center; }
+.block-tl h2 { font-size: clamp(26px, 2.3vw, 40px); }
+/* Assembly text: top centre (.block-top), hidden until the animation has finished
+   (data-show="end"; main.js adds .is-shown), then fades in. */
+.block-end h2 { font-size: clamp(26px, 2.3vw, 40px); }
+[data-show="end"] {
+  opacity: 0; visibility: hidden; transform: translateY(14px);
+  transition: opacity .6s ease, transform .6s ease, visibility 0s linear .6s;
+}
+[data-show="end"].is-shown {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity .6s ease, transform .6s ease;
+}
+@media (prefers-reduced-motion: reduce) { [data-show="end"] { transform: none; } }
+
+/* Exploded-view labels: hang below each part — line on top, name underneath. */
+.labels { position: absolute; inset: 0; pointer-events: none; }
+.label {
+  position: absolute; left: 0; top: 0;
+  display: flex; flex-direction: column-reverse; align-items: center; gap: 8px;
+  opacity: 0;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink); white-space: nowrap;
+}
+.label-line { width: 1px; height: 34px; background: var(--ink-50); }
+
+/* ---------- What you get / How it works ---------- */
+/* Title in a left column, items as hairline rows on the right (one column on phones). */
+.info { padding: 14vh 0 4vh; border-top: 1px solid var(--rule); }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--pad); }
+.wrap + .wrap { margin-top: 12vh; }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 32px; align-items: start; }
+.rows li {
+  display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 24px; align-items: baseline;
+  padding: 24px 0 28px; border-top: 1px solid var(--rule);
+}
+.rows li:last-child { border-bottom: 1px solid var(--rule); }
+.rows p { color: var(--ink-70); font-size: 18px; max-width: 46ch; }
+.step-n {
+  font-size: 44px; font-weight: 300; letter-spacing: -.04em; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Contact ---------- */
+/* The ask beside the product: the last full-size render on the page. The image's
+   backdrop is the page grey, so it has no visible edge. */
+.contact { padding: 8vh 0 0; }
+.quote { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px; align-items: center; }
+.quote-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; }
+.quote-art { display: block; width: 100%; height: auto; max-height: 86svh; object-fit: contain; }
+.big { font-size: clamp(48px, 8vw, 132px); letter-spacing: -.045em; line-height: .95; }
+.lead { font-size: clamp(18px, 1.6vw, 24px); color: var(--ink-70); max-width: 32ch; }
+.foot {
+  margin-top: 10vh;
+  padding: 14px var(--pad) 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+/* Footer brand animation (240x136 clip). White background multiplies away into the grey;
+   at 40px wide the asterisk starts ~20px tall and the wordmark ends ~37px wide. */
+.logo-anim { display: block; width: 40px; aspect-ratio: 240 / 136; mix-blend-mode: multiply; pointer-events: none; }
+.foot .mono { font-size: 10px; color: var(--ink-50); text-align: right; }
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 900px) {
+  .brand, .nav a { font-size: 17px; }
+  .nav { gap: 20px; }
+  .bar { gap: 16px; }
+  .split, .quote { grid-template-columns: 1fr; }
+  .split { gap: 28px; }
+  .quote-art { max-width: 520px; margin: 0 auto; }
+}
+@media (max-width: 560px) {
+  .brand-name { display: none; }
+  .brand, .nav a { font-size: 16px; }
+  .nav { gap: 16px; }
+  body { font-size: 16px; }
+  .rows li { grid-template-columns: 1fr; gap: 8px; padding: 20px 0 24px; }
+  .rows p { font-size: 17px; }
+  .foot { flex-direction: column; align-items: flex-start; }
+  .foot .mono { text-align: left; }
+}
