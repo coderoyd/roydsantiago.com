@@ -8,7 +8,7 @@
   <link rel="icon" href="img/royd-icon.svg?v=3" type="image/svg+xml">
   <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
   <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
-  <link rel="stylesheet" href="css/style.css?v=59">
+  <link rel="stylesheet" href="css/style.css?v=60">
 </head>
 <body>
 
@@ -32,7 +32,6 @@
     <!-- 1. Single pieces. The kits below bundle them. -->
     <section class="svc svc-top" id="offered">
       <h1 class="doc-h">Services offered</h1>
-      <p class="doc-text">Order any of these on its own, or as part of a kit.</p>
       <ul class="rows">
         <li><h3>Product stills</h3><p>Renders of your product for your store, social posts and print.</p></li>
         <li><h3>Loops</h3><p>Short animations of your product that repeat, for posts and product pages.</p></li>
@@ -44,13 +43,15 @@
       </ul>
     </section>
 
-    <!-- 2. Kits: each lists what it starts at. What they share is under "Every kit includes". -->
+    <!-- 2. Kits: each lists what it starts at. What they share is under "Every kit includes".
+         Each kit has its own render (white, exploded, navy) so the three read as separate things.
+         data-grey: main.js matches the page grey to this render (iPhone decodes it a shade lighter). -->
     <section class="svc" id="packages">
       <h2 class="doc-h">Packages</h2>
-      <p class="doc-text">Each kit lists what it starts at. Your brief decides how much more.</p>
 
       <div class="kits">
         <div class="kit">
+          <div class="kit-art"><img src="frames/d/turn-white/0030.webp" width="1440" height="1080" decoding="async" data-grey alt="The headphones in white."></div>
           <h3>SocialKit</h3>
           <p class="kit-for">Stills and loops for your store and social posts.</p>
           <ul class="list">
@@ -62,6 +63,7 @@
           </ul>
         </div>
         <div class="kit">
+          <div class="kit-art"><img src="frames/d/explode/0089.webp" width="1440" height="1080" decoding="async" alt="Every headphone part, spaced apart in a row."></div>
           <h3>PageKit</h3>
           <p class="kit-for">3D product animations for your website.</p>
           <ul class="list">
@@ -73,6 +75,7 @@
           <p class="kit-more">Building the whole page is quoted separately. <a href="index.html">See the demo</a>.</p>
         </div>
         <div class="kit">
+          <div class="kit-art"><img src="frames/d/turn-navy/0100.webp" width="1440" height="1080" decoding="async" alt="The headphones in navy."></div>
           <h3>LaunchKit</h3>
           <p class="kit-for">Campaign videos for a launch or an ad.</p>
           <ul class="list">
@@ -144,6 +147,6 @@
   </main>
 
   <!-- main.js finds no frame sequences here; it only plays the footer logo. -->
-  <script src="js/main.js?v=59"></script>
+  <script src="js/main.js?v=60"></script>
 </body>
 </html>

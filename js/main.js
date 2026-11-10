@@ -155,6 +155,12 @@
     s.sets.slice(1).forEach((set) => { for (let i = 0; i < s.count; i++) queue.push({ s, set, i }); });
   });
   pump();
+  // Pages without sequences (Services): match the grey to the first render marked data-grey.
+  const greyImg = !sections.length && document.querySelector("img[data-grey]");
+  if (greyImg) {
+    if (greyImg.complete && greyImg.naturalWidth) matchGrey(greyImg);
+    else greyImg.addEventListener("load", () => matchGrey(greyImg), { once: true });
+  }
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
