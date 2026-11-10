@@ -650,7 +650,10 @@
 
   relayout();
   remember();
-  addEventListener("scroll", () => { schedule(); remember(); }, { passive: true });
+  // .scrolled on <html> once the visitor has scrolled: hides the hero's scroll cue.
+  const markScrolled = () => document.documentElement.classList.toggle("scrolled", scrollY > 10);
+  markScrolled();
+  addEventListener("scroll", () => { schedule(); remember(); markScrolled(); }, { passive: true });
   addEventListener("resize", () => {
     const turned = innerWidth !== lastW;
     relayout();
@@ -661,7 +664,8 @@
   });
 
   /* ---------- Footer logo animation ---------- */
-  // Plays once when the footer comes into view and stops on the wordmark (its last frame).
+  // Plays once when the footer comes into view: asterisk → wordmark → back to the asterisk,
+  // where it stops (its last frame).
   const logoAnim = document.querySelector(".logo-anim");
   if (logoAnim) {
     const toEnd = () => { logoAnim.currentTime = Math.max(0, (logoAnim.duration || 0) - 0.01); };
@@ -672,7 +676,7 @@
         if (logoAnim.readyState >= 1) toEnd(); else logoAnim.addEventListener("loadedmetadata", toEnd, { once: true });
         return;
       }
-      logoAnim.play().catch(() => toEnd());     // if playback is blocked, still show the wordmark
+      logoAnim.play().catch(() => toEnd());     // if playback is blocked, still show the last frame
     }, { threshold: 0.6 });
     obs.observe(logoAnim);
   }

@@ -156,6 +156,22 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 /* The title stays up for the whole loop. White + "difference" blending reads as
    dark grey over the backdrop and light over the dark parts passing behind it. */
 .hero-top { color: var(--white); mix-blend-mode: difference; }
+/* Scroll cue: bottom centre of the hero, "Scroll" over a small arrow that bobs; same blending
+   as the title. Fades out once the visitor scrolls (main.js sets .scrolled on <html>). */
+.scroll-cue {
+  position: absolute; left: 50%; bottom: max(20px, 4vh); transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--white); mix-blend-mode: difference; pointer-events: none;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  transition: opacity .4s ease;
+}
+.scroll-cue i {
+  width: 10px; height: 10px; border-right: 1.5px solid; border-bottom: 1.5px solid;
+  transform: rotate(45deg); animation: cue 1.6s ease-in-out infinite;
+}
+@keyframes cue { 0%, 100% { translate: 0 -2px; } 50% { translate: 0 4px; } }
+.scrolled .scroll-cue { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .scroll-cue i { animation: none; } }
 .hero-top .sub {
   margin-top: 10px;
   font-size: clamp(18px, 1.7vw, 28px); font-weight: 450; letter-spacing: -.01em;
@@ -258,6 +274,10 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .quote { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px; align-items: center; }
 .quote-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; }
 .quote-art { display: block; width: 100%; height: auto; max-height: 86svh; object-fit: contain; }
+/* Floating: a slow bob up and down. The backdrop matches the page, so only the product moves. */
+.quote-art { animation: float 6s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+@media (prefers-reduced-motion: reduce) { .quote-art { animation: none; } }
 .big { font-size: clamp(48px, 8vw, 132px); letter-spacing: -.045em; line-height: .95; }
 .lead { font-size: clamp(18px, 1.6vw, 24px); color: var(--ink-70); max-width: 32ch; }
 .foot {
