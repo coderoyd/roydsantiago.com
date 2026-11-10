@@ -6,6 +6,7 @@
                          data-trigger="enter":  the section scrolling into view).
    data-loop="reverse": an auto sequence plays forward, pauses briefly at the end,
                         plays backward, holds on the first frame, and repeats.
+                        data-hold="ms" makes the pause at the end longer.
    data-loop="fade":    an auto sequence crossfades from its last frame back to its first.
    data-mode="forward": follows the scroll, but never rewinds.
    data-mode="scrub":   follows the scroll both ways.
@@ -71,6 +72,7 @@
       lastT: 0,
       armAt: 0,
       loop: el.dataset.loop || "",       // "", "reverse" or "fade"
+      hold: +el.dataset.hold || TURN_HOLD,   // reverse loop: pause on the last frame (ms)
       sign: 1,           // playback direction (reverse loop)
       until: 0,          // end of the current hold (looping)
       fadeStart: 0,
@@ -427,13 +429,13 @@
     s.idx = Math.min(Math.floor(s.pos), s.count - 1);
     if (s.idx >= s.count - 1) {
       s.idx = s.count - 1;
-      if (s.loop) { s.state = "holdEnd"; s.until = now + (s.loop === "reverse" ? TURN_HOLD : END_HOLD); }
+      if (s.loop) { s.state = "holdEnd"; s.until = now + (s.loop === "reverse" ? s.hold : END_HOLD); }
       else s.state = "done";
     }
   }
 
   // Playback states: playing → (fade loop) holdEnd → fade → holdStart → playing …
-  // A reverse loop pauses briefly at the end (holdEnd, TURN_HOLD), plays backward, and holds (holdStart) at frame 0.
+  // A reverse loop pauses at the end (holdEnd, data-hold or TURN_HOLD), plays backward, and holds (holdStart) at frame 0.
   function step(s, now) {
     if (s.state === "playing") {
       advance(s, now);

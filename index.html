@@ -9,7 +9,7 @@
   <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="frames/d/hero/0000.webp" as="image">
   <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
-  <link rel="stylesheet" href="css/style.css?v=65">
+  <link rel="stylesheet" href="css/style.css?v=66">
 </head>
 <body>
 
@@ -79,8 +79,9 @@
 
     <!-- 4. Assembly: Layout 4 -->
     <!-- data-fit: the finished product's top and bottom in the last frame (rows 194–844 of 1080),
-         so main.js can place the heading under it. -->
-    <section class="seq" id="assemble" data-seq="assemble" data-count="165" data-mode="auto" data-trigger="enter" data-fit="194,844" style="--h: 260vh">
+         so main.js can place the heading under it.
+         Loops: assembles, holds on the finished headphones for 1.5 s, takes itself apart, repeats. -->
+    <section class="seq" id="assemble" data-seq="assemble" data-count="165" data-mode="auto" data-trigger="enter" data-loop="reverse" data-hold="1500" data-fit="194,844" style="--h: 260vh">
       <div class="stage">
         <canvas role="img" aria-label="Headphone parts move together and assemble into the finished headphones."></canvas>
 
@@ -140,7 +141,7 @@
 
   </main>
 
-  <script src="js/labels.js?v=65"></script>
-  <script src="js/main.js?v=65"></script>
+  <script src="js/labels.js?v=66"></script>
+  <script src="js/main.js?v=66"></script>
 </body>
 </html>
