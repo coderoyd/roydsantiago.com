@@ -8,7 +8,7 @@
   <link rel="icon" href="img/royd-icon.svg?v=3" type="image/svg+xml">
   <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
   <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
-  <link rel="stylesheet" href="css/style.css?v=62">
+  <link rel="stylesheet" href="css/style.css?v=64">
 </head>
 <body>
 
@@ -29,24 +29,10 @@
        overseas clients get separate rate cards after the briefing. No turnaround times either. -->
   <main>
 
-    <!-- 1. Single pieces. The kits below bundle them. -->
-    <section class="svc svc-top" id="offered">
-      <h1 class="doc-h">Services offered</h1>
-      <ul class="rows">
-        <li><h3>Product stills</h3><p>Renders of your product for your store, social posts and print.</p></li>
-        <li><h3>Loops</h3><p>Short animations of your product that repeat, for posts and product pages.</p></li>
-        <li><h3>360° spins</h3><p>A full turn of your product, as a loop or as stills for a 360° viewer.</p></li>
-        <li><h3>Product Variant Sets</h3><p>Your product in every color, flavor or shade.</p></li>
-        <li><h3>Web scenes</h3><p>Animations on your website that play on load, with the scroll or by drag.</p></li>
-        <li><h3>Campaign films</h3><p>Short films for a launch or an ad.</p></li>
-        <li><h3>Product mockups</h3><p>Your product or packaging, rendered from CAD files or artwork before it's made.</p></li>
-      </ul>
-    </section>
-
-    <!-- 2. Kits: each lists what it starts at, in its own bordered box so the three read as separate
-         things. What they share is under "Every kit includes". -->
-    <section class="svc" id="packages">
-      <h2 class="doc-h">Packages</h2>
+    <!-- 1. Kits first: most clients choose one. Each lists what it starts at, in its own dashed box
+         so the three read as separate things. What they share is under "Every kit includes". -->
+    <section class="svc svc-top" id="packages">
+      <h1 class="doc-h">Packages</h1>
 
       <div class="kits">
         <div class="kit">
@@ -57,7 +43,7 @@
             <li>An 8-second loop, 1 scene</li>
             <li>A 360° spin</li>
             <li>A Product Variant Set, in stills</li>
-            <li>Vertical and square</li>
+            <li>2 formats: vertical and square</li>
           </ul>
         </div>
         <div class="kit">
@@ -65,7 +51,7 @@
           <p class="kit-for">3D product animations for your website.</p>
           <ul class="list">
             <li>1 web scene: plays on load, with the scroll or by drag</li>
-            <li>A turntable visitors drag to turn, in 1 color</li>
+            <li>A turntable visitors drag to turn</li>
             <li>Frames in desktop and phone sizes</li>
             <li>The code that plays them, for your developer to add to your site</li>
           </ul>
@@ -78,13 +64,14 @@
             <li>A 15-second film, 4 scenes</li>
             <li>1 simulation: liquid, cloth or a change of light</li>
             <li>Sound effects</li>
-            <li>4 stills</li>
+            <li>A hero image and 3 stills</li>
             <li>A Product Variant Set</li>
             <li>2 formats, such as vertical and horizontal</li>
           </ul>
           <p class="kit-more">Add PageKit to use the same scenes on your website.</p>
         </div>
       </div>
+      <p class="kit-more">Every kit grows with your brief.</p>
 
       <div class="kit-extras">
         <div>
@@ -104,10 +91,23 @@
           <ul class="list">
             <li>Extra format</li>
             <li>Extra product</li>
-            <li>Extra variant</li>
           </ul>
         </div>
       </div>
+    </section>
+
+    <!-- 2. Single pieces, for clients who need just one thing. The kits above bundle them. -->
+    <section class="svc" id="offered">
+      <h2 class="doc-h">Services offered</h2>
+      <ul class="rows">
+        <li><h3>Product stills</h3><p>Renders of your product for your store, social posts and print.</p></li>
+        <li><h3>Loops</h3><p>Short animations of your product that repeat, for posts and product pages.</p></li>
+        <li><h3>360° spins</h3><p>A full turn of your product, as a loop or as stills for a 360° viewer.</p></li>
+        <li><h3>Product Variant Sets</h3><p>Your product in every color, flavor or shade.</p></li>
+        <li><h3>Web scenes</h3><p>Animations on your website that play on load, with the scroll or by drag.</p></li>
+        <li><h3>Campaign films</h3><p>Short films for a launch or an ad.</p></li>
+        <li><h3>Product mockups</h3><p>Your product or packaging, rendered from CAD files or artwork before it's made.</p></li>
+      </ul>
     </section>
 
     <!-- 3. Onboarding: the Client Task List, as the client sees it. -->
@@ -128,8 +128,12 @@
         <div class="quote-copy">
           <h2 class="big">Get a quote.</h2>
           <p class="lead">Tell us about your product and where the renders will be used.</p>
-          <!-- Opens an email to the studio with the subject and a short template filled in. -->
-          <a class="btn btn-ink btn-lg" href="mailto:studio@roydsantiago.com?subject=Quote&amp;body=Product%3A%0D%0AKit%3A%0D%0AWhere%20the%20renders%20will%20be%20used%3A%0D%0ADeadline%3A%0D%0A">Email Studio Royd</a>
+          <!-- Each opens an email to the studio with the subject and a short template filled in.
+               The rate card asks for the country: local and overseas clients get different cards. -->
+          <div class="btns">
+            <a class="btn btn-ink btn-lg" href="mailto:studio@roydsantiago.com?subject=Quote&amp;body=Product%3A%0D%0AKit%3A%0D%0AWhere%20the%20renders%20will%20be%20used%3A%0D%0ADeadline%3A%0D%0A">Email Studio Royd</a>
+            <a class="btn btn-line btn-lg" href="mailto:studio@roydsantiago.com?subject=Rate%20card%20request&amp;body=Name%3A%0D%0ACompany%3A%0D%0ACountry%3A%0D%0A">Request a rate card</a>
+          </div>
         </div>
       </div>
       <footer class="foot">
@@ -143,6 +147,6 @@
   </main>
 
   <!-- main.js finds no frame sequences here; it only plays the footer logo. -->
-  <script src="js/main.js?v=62"></script>
+  <script src="js/main.js?v=64"></script>
 </body>
 </html>

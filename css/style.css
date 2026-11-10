@@ -116,6 +116,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 .btn-ink { background: var(--ink); color: var(--white); }
 .btn-ink:hover { transform: translateY(-1px); }
+/* Second choice beside an ink button: ink outline and ink text, no fill. */
+.btn-line { box-shadow: inset 0 0 0 1px var(--ink); color: var(--ink); }
+.btn-line:hover { transform: translateY(-1px); }
+.btns { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn-lg { height: 52px; padding: 0 28px; font-size: 16px; }
 .btn:focus-visible, .nav a:focus-visible, .brand:focus-visible {
   outline: 2px solid var(--ink); outline-offset: 3px;
@@ -352,7 +356,7 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 }
 .kit {
   display: grid; grid-row: span 4; grid-template-rows: subgrid; align-content: start;
-  padding: clamp(20px, 2.2vw, 36px); border: 1px dashed var(--ink);
+  padding: clamp(20px, 2.2vw, 36px); border: 1px dashed var(--ink-50);
 }
 .kit .list { border-bottom: 0; }
 .kit h3 { font-size: clamp(32px, 3.2vw, 52px); font-weight: 600; letter-spacing: -.035em; line-height: 1.05; }
@@ -380,7 +384,7 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   .kit { display: block; }
   .kit + .kit { margin-top: 12px; }
   .kit-extras > div:first-child { grid-column: auto; }
-  .kit-extras > div:first-child .list { grid-template-columns: 1fr; }
+  .kit-extras > div:first-child .list { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; }
 }
 @media (max-width: 560px) {
   .rows.steps li { grid-template-columns: 48px minmax(0, 1fr); }
