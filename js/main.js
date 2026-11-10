@@ -17,8 +17,12 @@
 (() => {
   "use strict";
 
-  const BG = "#C4C4C4";              // render backdrop colour
-  const BG_CLEAR = "rgba(196,196,196,0)";
+  // Render backdrop colour. Replaced by matchGrey() with the grey this device actually decodes
+  // from the frames: some decoders (iPhone) make it a shade lighter than the CSS colour, which
+  // showed as a soft-edged box around every frame.
+  let BG = "#C4C4C4";
+  let BG_CLEAR = "rgba(196,196,196,0)";
+  let greyMatched = false;
   const IW = 1440, IH = 1080;        // logical frame size
   const BAR_H = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar-h")) || 64;
   const FPS = 30;
@@ -97,6 +101,26 @@
   const FRAMES_V = { turn: 2 };
   const src = (dir, i) => `frames/${SIZE}/${dir}/${pad(i)}.webp` + (FRAMES_V[dir] ? `?v=${FRAMES_V[dir]}` : "");
 
+  // Average the frame's top-left 16x16 corner (always plain backdrop in every render) and make
+  // it the page grey: body, top-bar fade and canvas fill all follow --grey / --grey-rgb.
+  function matchGrey(img) {
+    greyMatched = true;
+    try {
+      const t = document.createElement("canvas");
+      t.width = t.height = 1;
+      const x = t.getContext("2d", { willReadFrequently: true });
+      x.drawImage(img, 0, 0, 16, 16, 0, 0, 1, 1);
+      const [r, g, b] = x.getImageData(0, 0, 1, 1).data;
+      if (Math.abs(r - g) > 6 || Math.abs(g - b) > 6) return;   // not a neutral grey: keep the CSS one
+      BG = `rgb(${r},${g},${b})`;
+      BG_CLEAR = `rgba(${r},${g},${b},0)`;
+      const root = document.documentElement.style;
+      root.setProperty("--grey", BG);
+      root.setProperty("--grey-rgb", `${r} ${g} ${b}`);
+      sections.forEach((s) => { s.dirty = true; });
+    } catch (e) { /* canvas read blocked: keep the CSS grey */ }
+  }
+
   function pump() {
     while (active < MAX_LOADS && queue.length) {
       const { s, set, i } = queue.shift();
@@ -105,7 +129,10 @@
       img.decoding = "async";
       set.imgs[i] = img;
       active++;
-      img.onload = () => { set.ok[i] = true; active--; s.dirty = true; schedule(); pump(); };
+      img.onload = () => {
+        if (!greyMatched) matchGrey(img);
+        set.ok[i] = true; active--; s.dirty = true; schedule(); pump();
+      };
       img.onerror = () => {
         active--;
         if (i === 0) hideVariant(s, set);   // not rendered yet: hide its button
@@ -138,20 +165,30 @@
   /* ---------- Layout & drawing ---------- */
   function layout(s) {
     const c = s.canvas;
-    if (s.labels) s.stage.style.height = "";   // measure at full screen height first
+    const ds = s.el.dataset;
+    if (s.labels || ds.box || ds.fit) s.stage.style.height = "";   // measure at full screen height first
     const w = c.clientWidth, h = c.clientHeight;
     const contain = Math.min(w / IW, h / IH);
     const cover = Math.max(w / IW, h / IH);
     // Landscape: fill most of the screen, cropping at most a little.
     // Portrait: enlarge past "contain" so the product isn't tiny.
     let scale = w >= h ? Math.min(cover, contain * 1.32) : Math.min(cover, contain * 1.6);
+    // Hero and assembly on tall screens (phones): fill the screen like the desktop version
+    // instead of a letterboxed frame with soft top and bottom edges.
+    if (w < h && (s.el.querySelector(".hero-top") || ds.fit)) scale = cover;
     let dx = (w - IW * scale) / 2, dy = (h - IH * scale) / 2;
-    const ds = s.el.dataset;
     // Assembly: the heading sits top centre, so the finished product (data-fit: its top and
     // bottom in the last frame, in frame pixels) is fitted below it. The frame moves down,
     // and shrinks only when the screen is too short to fit it otherwise.
+    // Phones: the frame fills the screen, so the heading goes 56px under the finished product
+    // (closer on short screens, so it always ends at least 24px above the bottom).
     const head = s.el.querySelector(".block-end");
-    if (ds.fit && head) {
+    const textUnder = !!(ds.fit && head && w < h);
+    s.el.classList.toggle("text-under", textUnder);
+    if (textUnder) {
+      const below = dy + Number(ds.fit.split(",")[1]) * scale + 56;
+      s.el.style.setProperty("--text-y", `${Math.round(Math.min(below, h - head.offsetHeight - 24))}px`);
+    } else if (ds.fit && head) {
       const [ft, fb] = ds.fit.split(",").map(Number);
       const lo = head.offsetTop + head.offsetHeight + 24, hi = h - 24;
       scale = Math.min(scale, (hi - lo) / (fb - ft));
@@ -176,6 +213,20 @@
         s.el.classList.remove("side");
       }
     }
+    // Turntable on tall screens (phones): the product's top lands 72px under the heading and
+    // subtitle, and the colour dots move to the centre, 88px under the product (.dots-under).
+    // data-box gives the product's top and bottom rows.
+    const under = w < h && text && ds.box && !s.el.classList.contains("side");
+    s.el.classList.toggle("dots-under", !!under);
+    let dotsEnd = 0;
+    if (under) {
+      const [, bt, , bb] = ds.box.split(",").map(Number);
+      dy = text.offsetTop + text.offsetHeight + 72 - bt * scale;
+      const dotsTop = dy + bb * scale + 88;
+      s.el.style.setProperty("--dots-y", `${Math.round(dotsTop - text.offsetTop)}px`);
+      s.el.style.setProperty("--dots-x", `${Math.round(w / 2 - text.offsetLeft)}px`);
+      dotsEnd = dotsTop + 20;
+    }
     // Exploded view: the pinned stage ends 40px under the lowest label instead of at the bottom
     // of the screen, so the next section follows right after it (no overlap; the page grey
     // below matches the render). A label hangs ~72px below its part (12px offset, 34px line,
@@ -184,6 +235,11 @@
     if (s.labels) {
       const lowest = Math.max(...s.labels.map((L) => Math.max(...L.pts.map((p) => p[1]))));
       ch = Math.min(h, Math.round(dy + lowest * scale + 72 + 40));
+      s.stage.style.height = `${ch}px`;
+    } else if (w < h && ds.box) {
+      // Turntable on tall screens: the stage ends 40px under the colour dots, so the next
+      // section follows without most of a screen of empty grey.
+      ch = Math.min(h, Math.round(dotsEnd + 40));
       s.stage.style.height = `${ch}px`;
     }
     c.width = Math.round(w * dpr);
@@ -290,12 +346,14 @@
 
     if (s.labels) {
       const { dx, dy, w } = s.xf, sc = s.xf.s;
+      const stageTop = s.stage.getBoundingClientRect().top;   // moves up once the stage unpins
       s.labels.forEach((L, k) => {
         const [x, y] = L.pts[Math.min(idx, L.pts.length - 1)];
         const sx = dx + x * sc, sy = dy + y * sc;
         const start = 0.06 + k * 0.1;              // labels appear one at a time
         let o = clamp((p - start) / 0.06, 0, 1);
         if (sx < 40 || sx > w - 40) o = 0;          // hide if the part is off-screen
+        o *= clamp((stageTop + sy + 12 - BAR_H) / 40, 0, 1);   // fade out before sliding under the top bar
         L.el.style.opacity = o.toFixed(3);
         // Hangs below the part: line on top, name underneath.
         L.el.style.transform = `translate(${sx.toFixed(1)}px, ${(sy + 12).toFixed(1)}px) translate(-50%, 0)` +

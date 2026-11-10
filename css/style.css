@@ -20,7 +20,8 @@
 }
 
 :root {
-  --grey: #C4C4C4;          /* render backdrop, sampled from the frames */
+  --grey: #C4C4C4;          /* render backdrop; main.js swaps in the grey this device decodes from the frames */
+  --grey-rgb: 196 196 196;  /* same grey as channels, for the top-bar fade */
   --ink: #030016;           /* brand ink */
   --white: #FFFFFF;
   --ink-70: rgba(3, 0, 22, .72);
@@ -68,17 +69,17 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   pointer-events: none;
   /* Eased (cosine) falloff: no visible edge where it ends. */
   background: linear-gradient(to bottom,
-    rgba(196, 196, 196, .9) 0%,
-    rgba(196, 196, 196, .878) 10%,
-    rgba(196, 196, 196, .814) 20%,
-    rgba(196, 196, 196, .714) 30%,
-    rgba(196, 196, 196, .589) 40%,
-    rgba(196, 196, 196, .45) 50%,
-    rgba(196, 196, 196, .311) 60%,
-    rgba(196, 196, 196, .186) 70%,
-    rgba(196, 196, 196, .086) 80%,
-    rgba(196, 196, 196, .022) 90%,
-    rgba(196, 196, 196, 0) 100%);
+    rgb(var(--grey-rgb) / .9) 0%,
+    rgb(var(--grey-rgb) / .878) 10%,
+    rgb(var(--grey-rgb) / .814) 20%,
+    rgb(var(--grey-rgb) / .714) 30%,
+    rgb(var(--grey-rgb) / .589) 40%,
+    rgb(var(--grey-rgb) / .45) 50%,
+    rgb(var(--grey-rgb) / .311) 60%,
+    rgb(var(--grey-rgb) / .186) 70%,
+    rgb(var(--grey-rgb) / .086) 80%,
+    rgb(var(--grey-rgb) / .022) 90%,
+    rgb(var(--grey-rgb) / 0) 100%);
 }
 /* Brand mark: the six-arm asterisk (same file as the favicon). */
 .logo {
@@ -194,9 +195,15 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .block-tl { top: calc(var(--bar-h) + 4.5vh); }
 .side .block-tl { top: 0; bottom: 0; justify-content: center; }
 .block-tl h2 { font-size: clamp(26px, 2.3vw, 40px); }
+/* Phones: the colour dots sit centred under the headphones (main.js sets the position). */
+.dots-under .block-tl .swatches {
+  position: absolute; top: var(--dots-y); left: var(--dots-x);
+  margin: 0; transform: translateX(-50%);
+}
 /* Assembly text: top centre (.block-top), hidden until the animation has finished
    (data-show="end"; main.js adds .is-shown), then fades in. */
 .block-end h2 { font-size: clamp(26px, 2.3vw, 40px); }
+.text-under .block-end { top: var(--text-y); }   /* phones: under the finished headphones */
 [data-show="end"] {
   opacity: 0; visibility: hidden; transform: translateY(14px);
   transition: opacity .6s ease, transform .6s ease, visibility 0s linear .6s;
@@ -263,6 +270,12 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   .split { gap: 28px; }
   .quote-art { max-width: 520px; margin: 0 auto; }
 }
+/* Touch screens: 44px tap areas for the colour dots and the menu links. */
+@media (pointer: coarse) {
+  .swatches { gap: 24px; }
+  .swatch::after { inset: -12px; }
+  .nav a { padding: 14px 0; }
+}
 @media (max-width: 560px) {
   .brand-name { display: none; }
   .brand, .nav a { font-size: 16px; }
@@ -270,6 +283,4 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   body { font-size: 16px; }
   .rows li { grid-template-columns: 1fr; gap: 8px; padding: 20px 0 24px; }
   .rows p { font-size: 17px; }
-  .foot { flex-direction: column; align-items: flex-start; }
-  .foot .mono { text-align: left; }
 }
