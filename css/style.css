@@ -156,6 +156,7 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   margin-top: 10px;
   font-size: clamp(18px, 1.7vw, 28px); font-weight: 450; letter-spacing: -.01em;
   color: rgba(255, 255, 255, .8);
+  text-wrap: balance;   /* on phones the subtitle wraps into two even lines, not one word alone */
 }
 
 .block {
