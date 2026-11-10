@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Info — Studio Royd</title>
+  <meta name="description" content="Contact Studio Royd, a product-visualization studio in Manila.">
+  <link rel="icon" href="img/royd-icon.svg?v=3" type="image/svg+xml">
+  <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
+  <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
+  <link rel="stylesheet" href="css/style.css?v=52">
+</head>
+<body>
+
+  <header class="bar">
+    <a class="brand" href="index.html" aria-label="Studio Royd, home">
+      <span class="logo" aria-hidden="true"></span>
+      <span class="brand-name">Studio Royd</span>
+    </a>
+    <nav class="nav" aria-label="Pages">
+      <a href="work.html">Work</a>
+      <a href="index.html">Webkit</a>
+      <a href="services.html">Services</a>
+      <a href="info.html" aria-current="page">Info</a>
+    </nav>
+  </header>
+
+  <!-- Info: text only, laid out like mvsm.com's contact page. Each block is a heading,
+       a short rule under it, then plain lines with underlined links. -->
+  <main class="page">
+
+    <section class="doc" id="contact">
+      <h1 class="doc-h">Contact</h1>
+      <p class="doc-text">To talk about a project, email <a href="mailto:studio@roydsantiago.com">studio@roydsantiago.com</a></p>
+      <div class="doc-cols">
+        <p>Manila<br>Philippines<br>UTC+8</p>
+        <p><a href="https://www.instagram.com/studioroyd/">Instagram</a><br><a href="https://www.behance.net/roydsantiago">Behance</a></p>
+      </div>
+    </section>
+
+    <section class="doc" id="studio">
+      <h2 class="doc-h">Studio</h2>
+      <p class="doc-text">Studio Royd is a product-visualization studio run by Royd Santiago. We make 3D renders and animations of products in Cinema 4D and Redshift.</p>
+    </section>
+
+    <footer class="foot">
+      <!-- Brand animation: the asterisk turns into the r·yd wordmark once, when the footer comes into view. -->
+      <video class="logo-anim" src="media/logo-anim.mp4" poster="media/logo-anim-poster.webp"
+             muted playsinline preload="auto" role="img" aria-label="Studio Royd"></video>
+      <span class="mono small">© 2026 Studio Royd</span>
+    </footer>
+  </main>
+
+  <!-- main.js finds no frame sequences here; it only plays the footer logo. -->
+  <script src="js/main.js?v=52"></script>
+</body>
+</html>

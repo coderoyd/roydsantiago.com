@@ -284,3 +284,34 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   .rows li { grid-template-columns: 1fr; gap: 8px; padding: 20px 0 24px; }
   .rows p { font-size: 17px; }
 }
+
+/* ---------- Info page ---------- */
+/* Text only, modelled on mvsm.com's contact page: a large regular-weight heading, a short
+   rule under it, then plain lines with underlined links. The footer sits at the bottom
+   of the screen when the page is shorter than it. */
+.page { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+.page .foot { margin-top: auto; }
+.doc { padding: 0 var(--pad); }
+.doc:first-child { padding-top: calc(var(--bar-h) + clamp(40px, 9vh, 120px)); }
+.doc + .doc { margin-top: clamp(80px, 12vw, 180px); }
+.page .doc:last-of-type { margin-bottom: clamp(80px, 12vw, 160px); }
+.doc-h {
+  font-size: clamp(36px, 4.4vw, 72px);
+  font-weight: 400; letter-spacing: -.03em; line-height: 1.05;
+}
+.doc-h::after {
+  content: ""; display: block;
+  width: 16px; height: 1px; margin-top: clamp(14px, 1.4vw, 24px);
+  background: var(--ink);
+}
+.doc-text, .doc-cols { font-size: clamp(19px, 1.75vw, 28px); line-height: 1.4; letter-spacing: -.01em; }
+.doc-text { margin-top: clamp(22px, 2.4vw, 36px); max-width: 30em; }
+.doc-cols {
+  margin-top: clamp(48px, 7vw, 110px); max-width: 960px;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px;
+}
+.doc a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .22em; }
+.doc a:hover { text-decoration-thickness: 2px; }
+.doc a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+/* Touch screens: 44px tap areas on the links without changing the line spacing. */
+@media (pointer: coarse) { .doc a { display: inline-block; padding: 9px 0; margin: -9px 0; } }
