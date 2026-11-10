@@ -343,17 +343,18 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .svc .rows { margin-top: clamp(32px, 4vw, 56px); max-width: 1100px; }
 .svc a:not(.btn) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .22em; }
 .svc a:not(.btn):hover { text-decoration-thickness: 2px; }
-/* Kits: three columns, each with its own render (5:4 crop of the centre of the 4:3 frame; the
-   backdrop is the page grey, so it has no visible edge) and a large name. Renders, names and
-   one-liners line up across the columns (subgrid); one kit after another on smaller screens. */
+/* Kits: three bordered boxes side by side, each with a large name; names, one-liners and lists
+   line up across the boxes (subgrid). One box after another on smaller screens. The box
+   border closes each list, so the list has no bottom rule of its own. */
 .kits {
   margin-top: clamp(40px, 5vw, 72px);
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(24px, 3vw, 48px);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(12px, 1.5vw, 24px);
 }
-.kit { display: grid; grid-row: span 5; grid-template-rows: subgrid; align-content: start; }
-.kit-art { aspect-ratio: 5 / 4; overflow: hidden; margin-bottom: clamp(8px, 1.5vw, 20px); }
-/* Zoomed in so the product fills more of the box; the exploded parts still fit the width. */
-.kit-art img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.25); }
+.kit {
+  display: grid; grid-row: span 4; grid-template-rows: subgrid; align-content: start;
+  padding: clamp(20px, 2.2vw, 36px); border: 1px solid var(--ink);
+}
+.kit .list { border-bottom: 0; }
 .kit h3 { font-size: clamp(32px, 3.2vw, 52px); font-weight: 600; letter-spacing: -.035em; line-height: 1.05; }
 .kit-extras h3 { font-size: clamp(24px, 2vw, 32px); letter-spacing: -.02em; }
 .kit-for { margin: 8px 0 24px; color: var(--ink-70); font-size: clamp(17px, 1.3vw, 20px); }
@@ -377,8 +378,7 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 @media (max-width: 900px) {
   .kits, .kit-extras { grid-template-columns: 1fr; }
   .kit { display: block; }
-  .kit + .kit { margin-top: 56px; }
-  .kit-art { width: min(100%, 420px, 80svh); }   /* never taller than a sideways phone screen */
+  .kit + .kit { margin-top: 12px; }
   .kit-extras > div:first-child { grid-column: auto; }
   .kit-extras > div:first-child .list { grid-template-columns: 1fr; }
 }
