@@ -35,7 +35,7 @@
     <!-- data-parts: the parts' top and bottom rows in the first frame (of 1080), so main.js can fit
          them under the title on phones turned sideways. Same on the exploded view. -->
     <!-- data-trigger="scroll": holds the first frame until the visitor starts scrolling, then plays. -->
-    <section class="seq" id="hero" data-seq="hero" data-count="150" data-mode="auto" data-trigger="scroll" data-loop="reverse" data-parts="317,763" style="--h: 240vh">
+    <section class="seq" id="hero" data-seq="hero" data-count="150" data-mode="auto" data-trigger="scroll" data-loop="reverse" data-parts="317,763" style="--h: 100vh">
       <div class="stage">
         <canvas role="img" aria-label="Rendered headphone parts in a row. As you scroll, the camera moves into the driver and the membrane pops out."></canvas>
 
@@ -50,7 +50,8 @@
       </div>
     </section>
 
-    <!-- 2. Exploded views: Layout 2 -->
+    <!-- 2. Exploded views: Layout 2. The only section that holds the page while you scroll (--h:
+         340vh): the scroll plays it. The others are one screen tall and scroll by normally. -->
     <section class="seq" id="explode" data-seq="explode" data-count="90" data-mode="scrub" data-parts="310,763" style="--h: 340vh">
       <div class="stage">
         <canvas role="img" aria-label="Side view of every headphone part, spaced apart in a row, with labels."></canvas>
@@ -67,7 +68,7 @@
          Each colourway is its own 120-frame set; a button hides itself until its frames exist. -->
     <!-- data-shift: product moved right by 15% of the width when the text fits beside it.
          data-box: the product's extent over the whole spin (left, top, right, bottom of the 1440x1080 frame). -->
-    <section class="seq" id="turn" data-seq="turn" data-variants="turn,turn-white,turn-navy" data-count="120" data-mode="drag" data-shift="0.15" data-box="416,180,1034,850" style="--h: 110vh">
+    <section class="seq" id="turn" data-seq="turn" data-variants="turn,turn-white,turn-navy" data-count="120" data-mode="drag" data-shift="0.15" data-box="416,180,1034,850" style="--h: 100vh">
       <div class="stage drag-stage" tabindex="0" aria-label="The finished headphones. Drag left or right, or use the arrow keys, to turn them.">
         <canvas role="img" aria-label="The finished headphones turning on the spot."></canvas>
         <!-- Text and colour dots: centre left beside the headphones; above them on phones. -->
@@ -87,7 +88,7 @@
     <!-- data-fit: the finished product's top and bottom in the last frame (rows 194–844 of 1080),
          so main.js can place the heading under it.
          Loops: assembles, holds on the finished headphones for 1.5 s, takes itself apart, repeats. -->
-    <section class="seq" id="assemble" data-seq="assemble" data-count="165" data-mode="auto" data-trigger="enter" data-loop="reverse" data-hold="1500" data-fit="194,844" style="--h: 260vh">
+    <section class="seq" id="assemble" data-seq="assemble" data-count="165" data-mode="auto" data-trigger="enter" data-loop="reverse" data-hold="1500" data-fit="194,844" style="--h: 100vh">
       <div class="stage">
         <canvas role="img" aria-label="Headphone parts move together and assemble into the finished headphones."></canvas>
 
