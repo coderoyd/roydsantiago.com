@@ -211,6 +211,9 @@
     // screens, so it always ends at least 24px above the bottom).
     // Landscape: the product and the text are fitted together between the top bar and the
     // bottom of the screen, centred there. The frame shrinks only when they don't fit.
+    // Phones turned sideways: there's no room for both, and a shrunken frame showed its edges as
+    // the parts flew in. So the frame fills the width, the finished product is centred on the
+    // screen and the text sits over its lower part (it blends like the hero title).
     const head = s.el.querySelector(".block-end");
     const textUnder = !!(ds.fit && head);
     s.el.classList.toggle("text-under", textUnder);
@@ -219,15 +222,19 @@
       let textY;
       if (w < h) {
         textY = Math.min(dy + fb * scale + 56, h - head.offsetHeight - 24);
+      } else if (short) {
+        scale = w / IW;
+        dx = 0;
+        dy = (h - (fb - ft) * scale) / 2 - ft * scale;
+        textY = h - head.offsetHeight - Math.max(16, h * 0.05);
       } else {
-        const gap = short ? 24 : 56;                // phones turned sideways: closer, so the product is larger
         const lo = BAR_H + h * 0.03, hi = h - Math.max(24, h * 0.05);
-        const room = hi - lo - gap - head.offsetHeight;
+        const room = hi - lo - 56 - head.offsetHeight;
         scale = Math.min(scale, room / (fb - ft));
         const top = lo + (room - (fb - ft) * scale) / 2;
         dx = (w - IW * scale) / 2;
         dy = top - ft * scale;
-        textY = top + (fb - ft) * scale + gap;
+        textY = top + (fb - ft) * scale + 56;
       }
       s.el.style.setProperty("--text-y", `${Math.round(textY)}px`);
     }
