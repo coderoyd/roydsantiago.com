@@ -64,9 +64,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   padding: 0 var(--pad);
 }
 /* Soft fade at the top instead of a solid bar with a rule. */
-.bar::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;   /* 64px, same as before */
-  pointer-events: none;
+.bar::before, .bar-fade {
+  content: ""; pointer-events: none;
   /* Eased (cosine) falloff: no visible edge where it ends. */
   background: linear-gradient(to bottom,
     rgb(var(--grey-rgb) / .9) 0%,
@@ -81,6 +80,15 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
     rgb(var(--grey-rgb) / .022) 90%,
     rgb(var(--grey-rgb) / 0) 100%);
 }
+.bar::before { position: absolute; inset: 0; z-index: -1; }   /* 64px, same as before */
+/* Demo page: the bar's text adapts to what's behind it, like the hero title (white +
+   "difference": dark grey over the backdrop, light over the dark parts). Blending the whole
+   bar would darken its fade too, so there the fade is its own element (.bar-fade) under it. */
+.bar-fade { position: fixed; inset: 0 0 auto 0; z-index: 49; height: var(--bar-h); }
+.bar-blend { color: var(--white); mix-blend-mode: difference; }
+.bar-blend::before { content: none; }
+.bar-blend .brand, .bar-blend .nav a { color: inherit; }
+.bar-blend a:focus-visible { outline-color: currentColor; }
 /* Brand mark: the six-arm asterisk (same file as the favicon). */
 .logo {
   display: block;
