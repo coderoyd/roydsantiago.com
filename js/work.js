@@ -12,7 +12,8 @@
     ["happy-skin-2", 226, 400, 1], ["headphones", 400, 300, 1],
     ["invite", 400, 226, 1], ["jawbreaker", 320, 400, 1], ["lancome", 226, 400, 1],
     ["lipstick", 226, 400, 1], ["magazine", 320, 400, 1], ["morning-after", 400, 226, 1],
-    ["obb", 400, 226, 1], ["obb-cards", 400, 226, 1], ["pages", 400, 300, 1], ["pringles", 400, 226, 1],
+    ["obb", 400, 226, 1], ["obb-cards", 400, 226, 1], ["oceania", 320, 400, 1],
+    ["pages", 400, 300, 1], ["pringles", 400, 226, 1],
     ["proli", 400, 226, 1], ["ropes", 320, 400, 0], ["sneaker", 320, 400, 1],
     ["teaser", 320, 400, 1], ["tools", 400, 300, 1], ["vanishing-point", 400, 226, 1],
   ];
@@ -26,14 +27,15 @@
   const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const order = WORKS.map((w) => [rnd(), w]).sort((a, b) => a[0] - b[0]).map((x) => x[1]);
 
-  // size: share of the near size; speed: px per second at the near size; o: resting opacity
+  // size: share of the near size; speed: px per second at the near size; o: resting opacity.
+  // Spread wide apart so the depth reads: the far layer is also slightly blurred (style.css).
   const layers = [
-    { works: order, size: 0.5, speed: 9, o: 0.3, stills: true },
-    { works: order.filter((_, i) => i % 2), size: 0.72, speed: 16, o: 0.45 },
-    { works: order.filter((_, i) => !(i % 2)), size: 1, speed: 26, o: 0.55 },
+    { works: order, size: 0.4, speed: 5, o: 0.15, stills: true, cls: "far" },
+    { works: order.filter((_, i) => i % 2), size: 0.72, speed: 15, o: 0.45 },
+    { works: order.filter((_, i) => !(i % 2)), size: 1.15, speed: 34, o: 0.6 },
   ].map((L) => {
     const el = document.createElement("div");
-    el.className = "pin-layer";
+    el.className = L.cls ? `pin-layer ${L.cls}` : "pin-layer";
     el.style.setProperty("--o", L.o);
     host.appendChild(el);
     const pins = L.works.map(([slug, w, h, clip]) => {

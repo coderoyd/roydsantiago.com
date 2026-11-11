@@ -396,8 +396,12 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .pins, .pin-layer { position: absolute; inset: 0; pointer-events: none; }
 .pin {
   position: absolute; left: 0; top: 0; display: block; object-fit: cover;
-  opacity: var(--o); transition: opacity .5s ease, scale .5s ease; will-change: translate; pointer-events: auto;
+  opacity: var(--o); transition: opacity .5s ease, scale .5s ease, filter .5s ease;
+  will-change: translate; pointer-events: auto;
 }
+/* Far layer: slightly out of focus, like depth of field; sharp again under the mouse. */
+.pin-layer.far .pin { filter: blur(1.5px); }
+@media (hover: hover) { .pin-layer.far .pin:hover { filter: none; } }
 /* Hover: full strength, half as big again from its centre, and above the other thumbnails (still
    under the message). work.js moves them with `translate`, so this `scale` doesn't move them. */
 @media (hover: hover) { .pin:hover { opacity: 1; scale: 1.5; z-index: 1; transition-duration: .3s; } }
