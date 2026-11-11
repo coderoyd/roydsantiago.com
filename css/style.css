@@ -456,6 +456,7 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .list li { padding: 12px 0; border-top: 1px solid var(--rule); }
 .kit-more { margin-top: 14px; color: var(--ink-70); font-size: 15px; }
 .kit-plus { margin-bottom: 2px; color: var(--ink); font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+.kit-fine { margin-top: 6px; color: var(--ink-50); font-size: 13px; line-height: 1.4; }
 /* Every kit includes (two columns of rows, under the first two kits) and Add to any kit. */
 .kit-extras {
   margin-top: clamp(56px, 6vw, 96px);
