@@ -388,9 +388,12 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .pin-layer.far .pin { filter: blur(1.5px) saturate(.4); }
 .pin-layer.mid .pin { filter: saturate(.75); }
 @media (hover: hover) { .pin-layer.far .pin:hover, .pin-layer.mid .pin:hover { filter: none; } }
+.pin-layer.far .pin.on, .pin-layer.mid .pin.on { filter: none; }
 /* Hover: full strength, half as big again from its centre, and above the other thumbnails (still
    under the message). work.js moves them with `translate`, so this `scale` doesn't move them. */
 @media (hover: hover) { .pin:hover { opacity: 1; scale: 1.5; z-index: 1; transition-duration: .3s; } }
+/* Touch screens: the tapped thumbnail (work.js adds .on) gets the same treatment. */
+.pin.on { opacity: 1; scale: 1.5; z-index: 1; transition-duration: .3s; }
 .wall-msg {
   position: absolute; inset: 0; z-index: 2; pointer-events: none;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;

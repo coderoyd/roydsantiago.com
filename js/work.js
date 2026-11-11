@@ -89,12 +89,30 @@
     draw(0);
   }
 
+  // Touch screens (no hover): a tap brings a thumbnail forward the way the mouse does (.on in
+  // style.css). Tapping another moves it there; tapping it again or anywhere else lets go.
+  let focused = null;
+  const focus = (p) => {
+    if (focused) focused.classList.remove("on");
+    focused = p;
+    if (p) p.classList.add("on");
+  };
+  if (matchMedia("(hover: none)").matches) {
+    wall.addEventListener("click", (e) => {
+      const p = e.target.closest(".pin");
+      focus(p && p !== focused ? p : null);
+    });
+  }
+
   function draw(dt) {
     layers.forEach((L) => {
       L.shift = (L.shift + L.speed * (near / 200) * dt) % L.len;
       L.pins.forEach((p) => {
         let y = p.y - L.shift;
         if (y < -p.ph) y += L.len;
+        // A tapped thumbnail lets go once it drifts off the top and comes round again.
+        if (p.el === focused && y > p.lastY) focus(null);
+        p.lastY = y;
         // `translate`, not transform: the hover `scale` (style.css) then grows the thumbnail
         // around its own centre. With transform it scaled the offset too and the thumbnail
         // jumped away from the mouse.
