@@ -375,6 +375,24 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
    Three layers: far ones paler, nearer ones stronger (--o); each comes up to full strength
    under the mouse. Only the thumbnails take the mouse, so ones under the message still do. */
 .wall { position: relative; height: 100vh; height: 100svh; min-height: 520px; overflow: hidden; }
+/* Bottom of the wall: the thumbnails fade into the footer instead of being cut off (owner's
+   request). Same eased falloff as the top bar's fade, solid grey where the footer starts. */
+.wall::after {
+  content: ""; position: absolute; inset: auto 0 0 0; z-index: 1; pointer-events: none;
+  height: clamp(100px, 18vh, 200px);
+  background: linear-gradient(to top,
+    rgb(var(--grey-rgb) / 1) 0%,
+    rgb(var(--grey-rgb) / .976) 10%,
+    rgb(var(--grey-rgb) / .905) 20%,
+    rgb(var(--grey-rgb) / .794) 30%,
+    rgb(var(--grey-rgb) / .655) 40%,
+    rgb(var(--grey-rgb) / .5) 50%,
+    rgb(var(--grey-rgb) / .345) 60%,
+    rgb(var(--grey-rgb) / .206) 70%,
+    rgb(var(--grey-rgb) / .095) 80%,
+    rgb(var(--grey-rgb) / .024) 90%,
+    rgb(var(--grey-rgb) / 0) 100%);
+}
 .pins, .pin-layer { position: absolute; inset: 0; pointer-events: none; }
 .pin {
   position: absolute; left: 0; top: 0; display: block; object-fit: cover;
