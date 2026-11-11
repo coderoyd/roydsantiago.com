@@ -28,10 +28,11 @@
   const order = WORKS.map((w) => [rnd(), w]).sort((a, b) => a[0] - b[0]).map((x) => x[1]);
 
   // size: share of the near size; speed: px per second at the near size; o: resting opacity.
-  // Spread wide apart so the depth reads: the far layer is also slightly blurred (style.css).
+  // Spread wide apart so the depth reads: the further back, the less colour, and the far layer
+  // is also slightly blurred (style.css).
   const layers = [
     { works: order, size: 0.4, speed: 5, o: 0.15, stills: true, cls: "far" },
-    { works: order.filter((_, i) => i % 2), size: 0.72, speed: 15, o: 0.45 },
+    { works: order.filter((_, i) => i % 2), size: 0.72, speed: 15, o: 0.45, cls: "mid" },
     { works: order.filter((_, i) => !(i % 2)), size: 1.15, speed: 34, o: 0.6 },
   ].map((L) => {
     const el = document.createElement("div");
