@@ -378,11 +378,11 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .pins, .pin-layer { position: absolute; inset: 0; pointer-events: none; }
 .pin {
   position: absolute; left: 0; top: 0; display: block; object-fit: cover;
-  opacity: var(--o); transition: opacity .5s ease, scale .5s ease; will-change: transform; pointer-events: auto;
+  opacity: var(--o); transition: opacity .5s ease, scale .5s ease; will-change: translate; pointer-events: auto;
 }
-/* Hover: full strength and a little larger, but it stays at its own depth: thumbnails in
-   front still pass over it (owner's call). `scale` rather than transform, which work.js
-   uses to move them. */
+/* Hover: full strength and a little larger from its centre, but it stays at its own depth:
+   thumbnails in front still pass over it (owner's call). work.js moves them with `translate`,
+   so this `scale` doesn't move them. */
 @media (hover: hover) { .pin:hover { opacity: 1; scale: 1.2; transition-duration: .25s; } }
 .wall-msg {
   position: absolute; inset: 0; z-index: 2; pointer-events: none;

@@ -9,10 +9,11 @@
     ["chair", 320, 400, 0], ["cloth-stairs", 400, 226, 1], ["constellation-hand", 400, 226, 1],
     ["constellation", 400, 226, 1], ["coreline", 400, 226, 1], ["flow", 400, 300, 1],
     ["frame-12", 400, 226, 1], ["handbag", 320, 400, 1], ["headphones", 400, 300, 1],
-    ["jawbreaker", 320, 400, 1], ["lancome", 226, 400, 1], ["lipstick", 226, 400, 1],
-    ["magazine", 320, 400, 1], ["morning-after", 400, 226, 1], ["pages", 400, 300, 1],
-    ["pringles", 400, 226, 1], ["proli", 400, 226, 1], ["ropes", 320, 400, 0],
-    ["sneaker", 320, 400, 1], ["teaser", 320, 400, 1], ["tools", 400, 300, 1],
+    ["invite", 400, 226, 1], ["jawbreaker", 320, 400, 1], ["lancome", 226, 400, 1],
+    ["lipstick", 226, 400, 1], ["magazine", 320, 400, 1], ["morning-after", 400, 226, 1],
+    ["obb", 400, 226, 1], ["pages", 400, 300, 1], ["pringles", 400, 226, 1],
+    ["proli", 400, 226, 1], ["ropes", 320, 400, 0], ["sneaker", 320, 400, 1],
+    ["teaser", 320, 400, 1], ["tools", 400, 300, 1], ["vanishing-point", 400, 226, 1],
   ];
   const wall = document.querySelector(".wall");
   const host = wall && wall.querySelector(".pins");
@@ -90,7 +91,10 @@
       L.pins.forEach((p) => {
         let y = p.y - L.shift;
         if (y < -p.ph) y += L.len;
-        p.el.style.transform = `translate3d(${p.x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+        // `translate`, not transform: the hover `scale` (style.css) then grows the thumbnail
+        // around its own centre. With transform it scaled the offset too and the thumbnail
+        // jumped away from the mouse.
+        p.el.style.translate = `${p.x.toFixed(1)}px ${y.toFixed(1)}px`;
       });
     });
   }
