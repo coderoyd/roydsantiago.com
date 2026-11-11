@@ -11,7 +11,7 @@
     ["frame-12", 400, 226, 1], ["handbag", 320, 400, 1], ["headphones", 400, 300, 1],
     ["invite", 400, 226, 1], ["jawbreaker", 320, 400, 1], ["lancome", 226, 400, 1],
     ["lipstick", 226, 400, 1], ["magazine", 320, 400, 1], ["morning-after", 400, 226, 1],
-    ["obb", 400, 226, 1], ["pages", 400, 300, 1], ["pringles", 400, 226, 1],
+    ["obb", 400, 226, 1], ["obb-cards", 400, 226, 1], ["pages", 400, 300, 1], ["pringles", 400, 226, 1],
     ["proli", 400, 226, 1], ["ropes", 320, 400, 0], ["sneaker", 320, 400, 1],
     ["teaser", 320, 400, 1], ["tools", 400, 300, 1], ["vanishing-point", 400, 226, 1],
   ];
