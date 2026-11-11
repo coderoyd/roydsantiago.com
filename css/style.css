@@ -378,9 +378,11 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .pins, .pin-layer { position: absolute; inset: 0; pointer-events: none; }
 .pin {
   position: absolute; left: 0; top: 0; display: block; object-fit: cover;
-  opacity: var(--o); transition: opacity .5s ease; will-change: transform; pointer-events: auto;
+  opacity: var(--o); transition: opacity .5s ease, scale .5s ease; will-change: transform; pointer-events: auto;
 }
-@media (hover: hover) { .pin:hover { opacity: 1; z-index: 1; transition-duration: .2s; } }
+/* Hover: full strength, a little larger and above the other thumbnails. `scale` rather than
+   transform, which work.js uses to move them. */
+@media (hover: hover) { .pin:hover { opacity: 1; scale: 1.2; z-index: 1; transition-duration: .25s; } }
 .wall-msg {
   position: absolute; inset: 0; z-index: 2; pointer-events: none;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
@@ -388,6 +390,20 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 }
 /* Full ink, not the usual softer grey: it sits over moving thumbnails. */
 .wall-msg p { font-size: clamp(17px, 1.3vw, 20px); max-width: 40ch; }
+/* Soft grey glow behind the message (owner's request), so it reads over the thumbnails.
+   Eased falloff like the top bar's fade: no visible edge. */
+.wall-msg::before {
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 50%;
+  width: min(1100px, 140vw); height: clamp(280px, 46vh, 560px);
+  transform: translate(-50%, -50%); pointer-events: none;
+  background: radial-gradient(closest-side,
+    rgb(var(--grey-rgb) / .95) 0%,
+    rgb(var(--grey-rgb) / .92) 30%,
+    rgb(var(--grey-rgb) / .78) 50%,
+    rgb(var(--grey-rgb) / .52) 66%,
+    rgb(var(--grey-rgb) / .24) 82%,
+    rgb(var(--grey-rgb) / 0) 100%);
+}
 
 /* ---------- Services page ---------- */
 /* Same left edge as the top bar and the Info page. Each section: a large heading with a short
