@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=1">
   <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
   <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
-  <link rel="stylesheet" href="css/style.css?v=75">
+  <link rel="stylesheet" href="css/style.css?v=76">
 </head>
 <body>
 
@@ -29,12 +29,17 @@
     </nav>
   </header>
 
-  <!-- Placeholder until the projects are ready: laid out like the Info page. -->
+  <!-- Placeholder until the project pages are ready: a wall of small looping thumbnails of past
+       work drifting up behind the message (js/work.js; clips and stills in media/work/).
+       They're faded and come up to full strength under the mouse. -->
   <main class="page">
 
-    <section class="doc" id="work">
-      <h1 class="doc-h">Work</h1>
-      <p class="doc-text">Projects are coming soon. In the meantime, see the <a href="index.html">demo</a>, or earlier work on <a href="https://www.behance.net/roydsantiago">Behance</a>.</p>
+    <section class="wall" id="work">
+      <div class="pins" aria-hidden="true"></div>
+      <div class="wall-msg">
+        <h1>Still rendering.</h1>
+        <p>A closer look at each project is on its way.</p>
+      </div>
     </section>
 
     <footer class="foot">
@@ -45,7 +50,8 @@
     </footer>
   </main>
 
+  <script src="js/work.js?v=76"></script>
   <!-- main.js finds no frame sequences here; it only plays the footer logo. -->
-  <script src="js/main.js?v=75"></script>
+  <script src="js/main.js?v=76"></script>
 </body>
 </html>
