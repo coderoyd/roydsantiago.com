@@ -106,15 +106,21 @@
 
   // Average the frame's top-left 16x16 corner (always plain backdrop in every render) and make
   // it the page grey: body, top-bar fade and canvas fill all follow --grey / --grey-rgb.
+  // Only a reading within a few shades of the CSS grey counts. A frame read before it was ready
+  // once came back dark grey (69) and turned the whole page dark around the renders; a reading
+  // like that is skipped and the next frame tries, up to 5 frames, then the CSS grey stays.
+  let greyTries = 0;
   function matchGrey(img) {
-    greyMatched = true;
+    if (++greyTries >= 5) greyMatched = true;
     try {
       const t = document.createElement("canvas");
       t.width = t.height = 1;
       const x = t.getContext("2d", { willReadFrequently: true });
       x.drawImage(img, 0, 0, 16, 16, 0, 0, 1, 1);
-      const [r, g, b] = x.getImageData(0, 0, 1, 1).data;
+      const [r, g, b, a] = x.getImageData(0, 0, 1, 1).data;
+      if (a < 255 || [r, g, b].some((c) => Math.abs(c - 196) > 10)) return;   // bad read: try the next frame
       if (Math.abs(r - g) > 6 || Math.abs(g - b) > 6) return;   // not a neutral grey: keep the CSS one
+      greyMatched = true;
       BG = `rgb(${r},${g},${b})`;
       BG_CLEAR = `rgba(${r},${g},${b},0)`;
       const root = document.documentElement.style;
