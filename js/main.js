@@ -279,13 +279,15 @@
       s.el.style.setProperty("--dots-x", `${Math.round(w / 2 - text.offsetLeft)}px`);
       dotsEnd = dotsTop + 20;
     }
-    // Exploded view: the pinned stage ends 40px under the lowest label instead of at the bottom
-    // of the screen, so the next section follows right after it (no overlap; the page grey
-    // below matches the render). A label hangs ~72px below its part (12px offset, 34px line,
-    // 8px gap, name). The frame is still placed for the full height, so nothing moves.
+    // Exploded view: the pinned stage ends at the bottom of the frame (or 40px under the lowest
+    // label, if that's lower) instead of at the bottom of the screen, so the next section follows
+    // right after it (no overlap; the page grey below matches the render). Ending it under the
+    // labels alone cut off the ear cup while it turns close to the camera. A label hangs ~72px
+    // below its part (12px offset, 34px line, 8px gap, name). The frame is still placed for the
+    // full height, so nothing moves.
     let ch = h;
     if (s.labels) {
-      ch =Math.min(h, Math.round(dy + lowest * scale + 72 + 40));
+      ch = Math.min(h, Math.round(Math.max(dy + IH * scale, dy + lowest * scale + 72 + 40)));
       s.stage.style.height = `${ch}px`;
     } else if (w < h && ds.box) {
       // Turntable on tall screens: the stage ends 40px under the colour dots, so the next
