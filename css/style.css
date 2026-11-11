@@ -260,7 +260,8 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   font-family: var(--mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
   color: var(--ink); white-space: nowrap;
 }
-.label-line { width: 1px; height: 34px; background: var(--ink-50); }
+/* --drop (main.js) lengthens the line when a name would run into the one on its left. */
+.label-line { width: 1px; height: calc(34px + var(--drop, 0px)); background: var(--ink-50); }
 
 /* ---------- What you get / How it works ---------- */
 /* Title in a left column, items as hairline rows on the right (one column on phones). */
@@ -325,7 +326,7 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 @media (orientation: landscape) and (max-height: 519px) {
   .stage { height: 100dvh; }
   .hero-top, .block-top { top: calc(var(--bar-h) + 4px); }
-  .label-line { height: 16px; }
+  .label-line { height: calc(16px + var(--drop, 0px)); }
   .quote { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
   .quote-art { margin: 0; }
 }

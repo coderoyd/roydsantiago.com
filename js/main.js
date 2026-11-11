@@ -101,7 +101,7 @@
   let queue = [];
   let active = 0;
   // Bump a set's number after re-rendering it, so browsers drop the cached frames.
-  const FRAMES_V = { turn: 2 };
+  const FRAMES_V = { turn: 2, explode: 2 };
   const src = (dir, i) => `frames/${SIZE}/${dir}/${pad(i)}.webp` + (FRAMES_V[dir] ? `?v=${FRAMES_V[dir]}` : "");
 
   // Average the frame's top-left 16x16 corner (always plain backdrop in every render) and make
@@ -197,7 +197,8 @@
       dy = Math.min(0, heading.offsetTop + heading.offsetHeight + 8 - pt * scale);
     } else if (short && ds.parts && heading) {
       const [pt, pb] = ds.parts.split(",").map(Number);
-      const hang = lowest ? s.labels[0].el.offsetHeight + 12 : 0;
+      // Room for a label, plus one more name for a label dropped below its neighbour (update()).
+      const hang = lowest ? s.labels[0].el.offsetHeight + 12 + s.labels[0].text.offsetHeight + 4 : 0;
       const a = heading.offsetTop + heading.offsetHeight + 16, b = h - 8;
       scale = Math.min(scale, (b - a) / (pb - pt));
       if (lowest) scale = Math.min(scale, (b - hang - a) / (lowest - pt));
@@ -378,7 +379,7 @@
       el.innerHTML = `<span class="label-text"></span><span class="label-line"></span>`;
       el.querySelector(".label-text").textContent = d.name;
       host.appendChild(el);
-      return { el, pts: d.pts };
+      return { el, text: el.querySelector(".label-text"), pts: d.pts };
     });
   }
 
@@ -397,13 +398,26 @@
     if (s.labels) {
       const { dx, dy, w } = s.xf, sc = s.xf.s;
       const stageTop = s.stage.getBoundingClientRect().top;   // moves up once the stage unpins
+      let prev = null;                             // the shown name to the left, to keep names apart
       s.labels.forEach((L, k) => {
-        const [x, y] = L.pts[Math.min(idx, L.pts.length - 1)];
+        const n = L.pts.length;                    // labelled frames: the parts spread apart
+        const [x, y] = L.pts[Math.min(idx, n - 1)];
         const sx = dx + x * sc, sy = dy + y * sc;
         const start = 0.06 + k * 0.1;              // labels appear one at a time
-        let o = clamp((p - start) / 0.06, 0, 1);
+        let o = clamp((idx / (n - 1) - start) / 0.06, 0, 1);
+        o *= clamp(1 - (idx - (n - 2)) / 8, 0, 1);  // then fade out as the parts close (frames after the labelled ones)
         if (sx < 40 || sx > w - 40) o = 0;          // hide if the part is off-screen
         o *= clamp((stageTop + sy + 12 - BAR_H) / 40, 0, 1);   // fade out before sliding under the top bar
+        // Where parts sit close together (phones), a longer line drops this name below the one on its
+        // left. Same line length otherwise, so the drop is just the height difference (eased in as they meet).
+        L.w ||= L.text.offsetWidth; L.th ||= L.text.offsetHeight;
+        let drop = 0;
+        if (prev && o > 0.01) {
+          const overlap = prev.right + 12 - (sx - L.w / 2);
+          if (overlap > 0) drop = Math.max(0, prev.bottom + 4 - sy) * clamp(overlap / 16, 0, 1);
+        }
+        if (o > 0.01) prev = { right: sx + L.w / 2, bottom: sy + drop + L.th };
+        L.el.style.setProperty("--drop", `${drop.toFixed(1)}px`);
         L.el.style.opacity = o.toFixed(3);
         // Hangs below the part: line on top, name underneath.
         L.el.style.transform = `translate(${sx.toFixed(1)}px, ${(sy + 12).toFixed(1)}px) translate(-50%, 0)` +

@@ -9,7 +9,7 @@
   <link rel="preload" href="fonts/DMSans-Variable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="frames/d/hero/0000.webp" as="image">
   <!-- Bump ?v= after editing CSS/JS so browsers (and phones) don't keep the old copy. -->
-  <link rel="stylesheet" href="css/style.css?v=72">
+  <link rel="stylesheet" href="css/style.css?v=73">
 </head>
 <body>
 
@@ -50,14 +50,18 @@
       </div>
     </section>
 
-    <!-- 2. Exploded views: Layout 2. The only section that holds the page while you scroll (--h:
-         340vh): the scroll plays it. The others are one screen tall and scroll by normally. -->
-    <section class="seq" id="explode" data-seq="explode" data-count="90" data-mode="scrub" data-parts="310,763" style="--h: 340vh">
+    <!-- 2. Exploded views: Layout 2 Close, with the holder left out for the site. Frames 0-89: the
+         parts spread apart, with labels; 90-170: they snap together while the camera zooms in,
+         then the ear cup turns to the outer cap. The only section that
+         holds the page while you scroll (--h: 340vh): the scroll plays it. The others are one
+         screen tall and scroll by normally. -->
+    <section class="seq" id="explode" data-seq="explode" data-count="171" data-mode="scrub" data-parts="310,763" style="--h: 340vh">
       <div class="stage">
-        <canvas role="img" aria-label="Side view of every headphone part, spaced apart in a row, with labels."></canvas>
+        <canvas role="img" aria-label="Side view of every headphone part, spaced apart in a row, with labels. The parts then snap together and the ear cup turns to show the outer cap."></canvas>
         <div class="labels" aria-hidden="true"></div>
 
-        <div class="block block-top" data-show="-1,2">
+        <!-- Fades out with the labels as the parts snap together (the zoomed ear cup reaches up here). -->
+        <div class="block block-top" data-show="-1,0.52">
           <h2>Plays on its own, or with the scroll.</h2>
         </div>
 
@@ -149,7 +153,7 @@
 
   </main>
 
-  <script src="js/labels.js?v=72"></script>
-  <script src="js/main.js?v=72"></script>
+  <script src="js/labels.js?v=73"></script>
+  <script src="js/main.js?v=73"></script>
 </body>
 </html>
