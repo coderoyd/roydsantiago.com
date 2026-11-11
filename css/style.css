@@ -380,9 +380,10 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   position: absolute; left: 0; top: 0; display: block; object-fit: cover;
   opacity: var(--o); transition: opacity .5s ease, scale .5s ease; will-change: transform; pointer-events: auto;
 }
-/* Hover: full strength, a little larger and above the other thumbnails. `scale` rather than
-   transform, which work.js uses to move them. */
-@media (hover: hover) { .pin:hover { opacity: 1; scale: 1.2; z-index: 1; transition-duration: .25s; } }
+/* Hover: full strength and a little larger, but it stays at its own depth: thumbnails in
+   front still pass over it (owner's call). `scale` rather than transform, which work.js
+   uses to move them. */
+@media (hover: hover) { .pin:hover { opacity: 1; scale: 1.2; transition-duration: .25s; } }
 .wall-msg {
   position: absolute; inset: 0; z-index: 2; pointer-events: none;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
