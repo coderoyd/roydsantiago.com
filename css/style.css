@@ -263,6 +263,14 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   font-size: 44px; font-weight: 300; letter-spacing: -.04em; line-height: 1;
   font-variant-numeric: tabular-nums;
 }
+/* Demo page tweaks: darker descriptions (easier to read on the grey), a tighter gap between
+   the two blocks, step numbers centred on their sentence, and the hand-off to the quote. */
+.info .rows p { color: rgba(3, 0, 22, .86); }
+.info .wrap + .wrap { margin-top: 7vh; }
+#how .rows li { align-items: center; }
+#how .step-n { font-size: 36px; }
+.how-next { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 28px; }
+.how-next p { color: rgba(3, 0, 22, .86); font-size: 18px; }
 
 /* ---------- Contact ---------- */
 /* The ask beside the product: the last full-size render on the page. The image's
