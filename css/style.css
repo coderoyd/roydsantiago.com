@@ -400,7 +400,8 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
   padding: 0 var(--pad); text-align: center;
 }
 /* Full ink, not the usual softer grey: it sits over moving thumbnails. */
-.wall-msg p { font-size: clamp(17px, 1.3vw, 20px); max-width: 40ch; }
+.wall-msg h1 { font-size: clamp(28px, 3.4vw, 62px); }
+.wall-msg p { font-size: clamp(16px, 1.1vw, 18px); max-width: 40ch; }
 /* Soft grey glow behind the message (owner's request), so it reads over the thumbnails.
    Eased falloff like the top bar's fade: no visible edge. */
 .wall-msg::before {
