@@ -474,6 +474,11 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .kit-extras .list { margin-top: 20px; }
 /* Onboarding steps: number, step, what happens. */
 .rows.steps li { grid-template-columns: 72px minmax(0, 2fr) minmax(0, 3fr); }
+/* Services tweaks: darker descriptions (easier to read on the page grey), step numbers centred
+   on their row, and a one-line intro under the section headings. */
+.svc .rows p, .kit-for { color: rgba(3, 0, 22, .86); }
+.rows.steps li { align-items: center; }
+.svc-intro { margin-top: clamp(16px, 1.6vw, 24px); max-width: 40ch; color: rgba(3, 0, 22, .86); font-size: clamp(18px, 1.5vw, 22px); }
 @media (max-width: 900px) {
   .kits, .kit-extras { grid-template-columns: 1fr; }
   .kit { display: block; }
