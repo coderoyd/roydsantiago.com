@@ -21,8 +21,8 @@
   // Render backdrop colour. Replaced by matchGrey() with the grey this device actually decodes
   // from the frames: some decoders (iPhone) make it a shade lighter than the CSS colour, which
   // showed as a soft-edged box around every frame.
-  let BG = "#C4C4C4";
-  let BG_CLEAR = "rgba(196,196,196,0)";
+  let BG = "#ECECEC";
+  let BG_CLEAR = "rgba(236,236,236,0)";
   let greyMatched = false;
   const IW = 1440, IH = 1080;        // logical frame size
   const BAR_H = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar-h")) || 64;
@@ -101,7 +101,8 @@
   let queue = [];
   let active = 0;
   // Bump a set's number after re-rendering it, so browsers drop the cached frames.
-  const FRAMES_V = { turn: 2, explode: 2 };
+  // Bumped for the brighter grade (Nov 2026): every set, so no browser shows old grey frames on the new background.
+  const FRAMES_V = { hero: 3, assemble: 3, explode: 3, turn: 3, "turn-navy": 3, "turn-white": 3 };
   const src = (dir, i) => `frames/${SIZE}/${dir}/${pad(i)}.webp` + (FRAMES_V[dir] ? `?v=${FRAMES_V[dir]}` : "");
 
   // Average the frame's top-left 16x16 corner (always plain backdrop in every render) and make
@@ -118,7 +119,7 @@
       const x = t.getContext("2d", { willReadFrequently: true });
       x.drawImage(img, 0, 0, 16, 16, 0, 0, 1, 1);
       const [r, g, b, a] = x.getImageData(0, 0, 1, 1).data;
-      if (a < 255 || [r, g, b].some((c) => Math.abs(c - 196) > 10)) return;   // bad read: try the next frame
+      if (a < 255 || [r, g, b].some((c) => Math.abs(c - 236) > 10)) return;   // bad read: try the next frame
       if (Math.abs(r - g) > 6 || Math.abs(g - b) > 6) return;   // not a neutral grey: keep the CSS one
       greyMatched = true;
       BG = `rgb(${r},${g},${b})`;

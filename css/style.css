@@ -20,8 +20,8 @@
 }
 
 :root {
-  --grey: #C4C4C4;          /* render backdrop; main.js swaps in the grey this device decodes from the frames */
-  --grey-rgb: 196 196 196;  /* same grey as channels, for the top-bar fade */
+  --grey: #ECECEC;          /* render backdrop; main.js swaps in the grey this device decodes from the frames */
+  --grey-rgb: 236 236 236;  /* same grey as channels, for the top-bar fade */
   --ink: #030016;           /* brand ink */
   --white: #FFFFFF;
   --ink-70: rgba(3, 0, 22, .72);
@@ -279,6 +279,9 @@ h3 { font-size: 20px; font-weight: 560; letter-spacing: -.01em; line-height: 1.2
 .quote { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px; align-items: center; }
 .quote-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; }
 .quote-art { display: block; width: 100%; height: auto; max-height: 86svh; object-fit: contain; }
+/* Darken blend: the render's backdrop can't show lighter than the page grey (it read a couple of
+   shades lighter after the brighter grade), so there's never a box around the product. */
+.quote-art { mix-blend-mode: darken; }
 /* Floating: a slow bob up and down. The backdrop matches the page, so only the product moves. */
 .quote-art { animation: float 6s ease-in-out infinite; }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
